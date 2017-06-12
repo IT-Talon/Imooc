@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="50dp"
+              android:background="@color/toolbar_background"
+              android:gravity="center"
+              android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/toolbar_name"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="@string/main_home"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_big"/>
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="2"/>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="2"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/toolbar_search"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:scaleType="centerInside"
+            android:src="@drawable/toolbar_back"/>
+
+        <ImageView
+            android:id="@+id/toolbar_email"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:scaleType="centerInside"
+            android:src="@drawable/toolbar_search"/>
+
+        <ImageView
+            android:id="@+id/toolbar_shopping_cart"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:scaleType="centerInside"
+            android:src="@drawable/toolbar_share"/>
+
+    </LinearLayout>
+
+</LinearLayout>

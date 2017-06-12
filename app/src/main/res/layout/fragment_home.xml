@@ -1,0 +1,38 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              tools:context="com.hzcwtech.imooc.fragment.HomeFragment">
+
+    <include layout="@layout/toolbar_main_activity"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.youth.banner.Banner
+                android:id="@+id/banner_home"
+                android:layout_width="match_parent"
+                android:layout_height="200dp">
+
+            </com.youth.banner.Banner>
+
+            <android.support.v7.widget.RecyclerView
+                android:background="#66000000"
+                android:id="@+id/tab_recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="300dp">
+
+            </android.support.v7.widget.RecyclerView>
+
+        </LinearLayout>
+    </ScrollView>
+
+
+</LinearLayout>

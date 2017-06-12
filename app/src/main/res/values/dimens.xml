@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="common_content_line_spacing_extra">4dp</dimen>
+    <dimen name="text_size_small">12sp</dimen>
+    <dimen name="text_size_middle">15sp</dimen>
+    <dimen name="text_size_big">17sp</dimen>
+</resources>

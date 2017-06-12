@@ -13,6 +13,9 @@ public class AppContext extends Application {
     private static AppContext instance;
 
     public static AppContext getInstance() {
+        if (instance == null) {
+            instance = new AppContext();
+        }
         return instance;
     }
 

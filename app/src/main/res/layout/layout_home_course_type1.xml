@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@drawable/course_bg"
+              android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/course_skills"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:gravity="center|left"
+        android:text="Java"
+        android:textColor="@color/grey_4c"
+        android:textSize="@dimen/text_size_middle"/>
+
+    <TextView
+        android:id="@+id/course_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_size_middle"/>
+
+    <TextView
+        android:id="@+id/course_short_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:textColor="@color/grey_4c"
+        android:textSize="@dimen/text_size_small"/>
+
+    <TextView
+        android:id="@+id/course_study_numbers"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/grey_4c"
+        android:textSize="@dimen/text_size_small"/>
+
+</LinearLayout>

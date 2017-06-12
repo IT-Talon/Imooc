@@ -24,14 +24,52 @@
             </com.youth.banner.Banner>
 
             <android.support.v7.widget.RecyclerView
-                android:background="#66000000"
                 android:id="@+id/tab_recyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="300dp">
+                android:layout_height="wrap_content"
+                android:background="@color/white">
+
+            </android.support.v7.widget.RecyclerView>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:drawableLeft="@drawable/my_course"
+                    android:drawablePadding="5dp"
+                    android:gravity="center"
+                    android:text="@string/course_recommend"
+                    android:textColor="@color/grey_4c"
+                    android:textSize="@dimen/text_size_middle"/>
+
+                <TextView
+                    android:id="@+id/change"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="10dp"
+                    android:gravity="center"
+                    android:text="@string/change_a_change"
+                    android:textColor="@color/grey_4c_trans"
+                    android:textSize="@dimen/text_size_small"/>
+
+            </RelativeLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerView_course_recommend"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:overScrollMode="never">
 
             </android.support.v7.widget.RecyclerView>
 
         </LinearLayout>
+
     </ScrollView>
 
 

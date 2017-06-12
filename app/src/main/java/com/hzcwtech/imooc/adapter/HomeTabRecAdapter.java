@@ -15,9 +15,9 @@ import java.util.List;
  * Created by Talon on 2017/6/9.
  */
 
-public class HomeTabRecyclerViewAdapter extends BaseQuickAdapter<HomeTabModel, BaseViewHolder> {
+public class HomeTabRecAdapter extends BaseQuickAdapter<HomeTabModel, BaseViewHolder> {
 
-    public HomeTabRecyclerViewAdapter(@Nullable List<HomeTabModel> data) {
+    public HomeTabRecAdapter(@Nullable List<HomeTabModel> data) {
         super(R.layout.item_home_tab, data);
     }
 

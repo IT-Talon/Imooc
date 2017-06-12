@@ -7,4 +7,6 @@
     <string name="main_course">课程</string>
     <string name="main_download">下载</string>
     <string name="main_my">我的</string>
+    <string name="course_recommend">课程推荐</string>
+    <string name="change_a_change">换一换</string>
 </resources>

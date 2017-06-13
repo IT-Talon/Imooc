@@ -10,6 +10,7 @@ import com.chad.library.adapter.base.util.MultiTypeDelegate;
 import com.hzcwtech.imooc.R;
 import com.hzcwtech.imooc.entity.model.CourseModel;
 import com.hzcwtech.imooc.entity.model.SkillsModel;
+import com.hzcwtech.imooc.utils.CommonUtil;
 import com.hzcwtech.imooc.utils.GlideRoundTransform;
 
 import java.util.List;
@@ -56,7 +57,8 @@ public class HomeCourseMultiAdapter extends BaseQuickAdapter<CourseModel, BaseVi
                 helper.setText(R.id.course_skills, skills)
                         .setText(R.id.course_name, course.getName())
                         .setText(R.id.course_short_description, course.getShort_description())
-                        .setText(R.id.course_study_numbers, course.getNumbers());
+                        .setText(R.id.course_study_numbers, CommonUtil.fillString(mContext, R.string.format_study_number, course.getNumbers()));
+
                 final ImageView imageView = helper.getView(R.id.course_name_bg);
                 Glide.with(mContext).load(course.getPic()).apply(new RequestOptions().transform(new GlideRoundTransform(mContext, 20, 0, GlideRoundTransform.CornerType.TOP))).into(imageView);
                 break;

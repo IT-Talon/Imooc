@@ -1,18 +1,22 @@
 package com.hzcwtech.imooc.fragment;
 
 
+import android.content.Context;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.util.LogTime;
 import com.google.gson.Gson;
 import com.hzcwtech.imooc.R;
 import com.hzcwtech.imooc.adapter.HomeCourseMultiAdapter;
@@ -21,6 +25,7 @@ import com.hzcwtech.imooc.base.BaseFragment;
 import com.hzcwtech.imooc.entity.model.CourseModel;
 import com.hzcwtech.imooc.entity.model.HomeTabModel;
 import com.hzcwtech.imooc.other.GlideImageLoader;
+import com.hzcwtech.imooc.utils.LogUtil;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 
@@ -37,6 +42,8 @@ import butterknife.Unbinder;
  */
 public class HomeFragment extends BaseFragment {
 
+
+    private static final String TAG = HomeFragment.class.getSimpleName();
 
     @BindView(R.id.toolbar_name)
     TextView toolbarName;
@@ -78,6 +85,8 @@ public class HomeFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         unbinder = ButterKnife.bind(this, view);
         initView();
+        LogUtil.d(TAG, "onCreateView: ");
+
         return view;
     }
 
@@ -86,6 +95,48 @@ public class HomeFragment extends BaseFragment {
         initBanner();
         initRecyclerView();
 
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        LogUtil.d(TAG, "onCreate: ");
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        LogUtil.d(TAG, "onAttach: ");
+        super.onAttach(context);
+    }
+
+    @Override
+    public void onDestroy() {
+        LogUtil.d(TAG, "onDestroy: ");
+        super.onDestroy();
+    }
+
+    @Override
+    public void onPause() {
+        LogUtil.d(TAG, "onPause: ");
+        super.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        LogUtil.d(TAG, "onResume: ");
+        super.onResume();
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        LogUtil.d(TAG, "onActivityCreated: ");
+        super.onActivityCreated(savedInstanceState);
+    }
+
+    @Override
+    public void onDetach() {
+        LogUtil.d(TAG, "onDetach: ");
+        super.onDetach();
     }
 
     private void initRecyclerView() {
@@ -217,18 +268,21 @@ public class HomeFragment extends BaseFragment {
 
     @Override
     public void onDestroyView() {
+        LogUtil.d(TAG, "onDestroyView: ");
         super.onDestroyView();
         unbinder.unbind();
     }
 
     @Override
     public void onStart() {
+        LogUtil.d(TAG, "onStart: ");
         super.onStart();
         mBanner.startAutoPlay();
     }
 
     @Override
     public void onStop() {
+        LogUtil.d(TAG, "onStop: ");
         mBanner.stopAutoPlay();
         super.onStop();
     }

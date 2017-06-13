@@ -1,6 +1,8 @@
 package com.hzcwtech.imooc.adapter;
 
+import android.graphics.drawable.GradientDrawable;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -12,6 +14,7 @@ import com.hzcwtech.imooc.entity.model.CourseModel;
 import com.hzcwtech.imooc.entity.model.SkillsModel;
 import com.hzcwtech.imooc.utils.CommonUtil;
 import com.hzcwtech.imooc.utils.GlideRoundTransform;
+import com.hzcwtech.imooc.utils.ResourceUtil;
 
 import java.util.List;
 
@@ -61,6 +64,12 @@ public class HomeCourseMultiAdapter extends BaseQuickAdapter<CourseModel, BaseVi
 
                 final ImageView imageView = helper.getView(R.id.course_name_bg);
                 Glide.with(mContext).load(course.getPic()).apply(new RequestOptions().transform(new GlideRoundTransform(mContext, 20, 0, GlideRoundTransform.CornerType.TOP))).into(imageView);
+
+                TextView textView = helper.getView(R.id.course_skills);
+                int colors[] = {ResourceUtil.toIntColor(course.getBgcolor_start()), ResourceUtil.toIntColor(course.getBgcolor_end())};
+                GradientDrawable bg = (GradientDrawable) textView.getBackground();
+                bg.setColors(colors);
+                bg.setOrientation(GradientDrawable.Orientation.LEFT_RIGHT);
                 break;
             case COURSE_TYPE_TWO:
                 // do something

@@ -21,12 +21,12 @@
             android:id="@+id/course_skills"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="5dp"
+            android:background="@drawable/corner_textview_bg"
             android:gravity="center|left"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:text="Java"
-            android:textColor="@color/grey_4c"
+            android:textColor="@color/white"
             android:textSize="@dimen/text_size_middle"/>
 
     </RelativeLayout>

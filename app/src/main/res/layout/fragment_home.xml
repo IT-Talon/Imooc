@@ -2,6 +2,7 @@
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
+              android:background="@color/app_bg_color"
               android:orientation="vertical"
               tools:context="com.hzcwtech.imooc.fragment.HomeFragment">
 
@@ -9,7 +10,9 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:overScrollMode="never"
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -64,7 +67,8 @@
                 android:id="@+id/recyclerView_course_recommend"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:overScrollMode="never">
+                android:overScrollMode="never"
+                android:padding="11dp">
 
             </android.support.v7.widget.RecyclerView>
 

@@ -1,22 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="@drawable/course_bg"
-              android:orientation="horizontal">
+              android:layout_height="110dp"
+              android:background="@color/white"
+              android:orientation="horizontal"
+              android:padding="10dp">
 
     <TextView
         android:id="@+id/course_skills"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:padding="5dp"
+        android:padding="10dp"
         android:text="Android"
-        android:textColor="@color/grey_4c"
+        android:textColor="@color/white"
         android:textSize="@dimen/text_size_middle"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="100dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="10dp"
+        android:gravity="center_vertical"
         android:orientation="vertical">
 
         <TextView
@@ -30,6 +34,7 @@
             android:id="@+id/course_short_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
             android:ellipsize="end"
             android:maxLines="2"
             android:textColor="@color/grey_4c"
@@ -38,6 +43,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:orientation="horizontal">
 
             <TextView

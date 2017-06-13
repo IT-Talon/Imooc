@@ -5,6 +5,7 @@ import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,11 +52,14 @@ public class HomeFragment extends BaseFragment {
     RecyclerView tabRecyclerView;
     @BindView(R.id.recyclerView_course_recommend)
     RecyclerView courseRecomRecyclerView;
+    @BindView(R.id.recyclerView_career_path)
+    RecyclerView careerPathRecyclerView;
     Unbinder unbinder;
 
     private Integer[] images = {R.mipmap.banner_img1, R.mipmap.banner_img2, R.mipmap.banner_img3, R.mipmap.banner_img4};
     private List<HomeTabModel> homeTabData;
     private List<CourseModel> homeCourseData;
+    private List<CourseModel> careerPathData;
 
     public static HomeFragment newInstance() {
 
@@ -157,8 +161,41 @@ public class HomeFragment extends BaseFragment {
         for (int i = 0; i < 6; i++) {
             homeCourseData.add(courseModel);
         }
-
         courseRecomRecyclerView.setAdapter(new HomeCourseMultiAdapter(homeCourseData));
+
+        careerPathRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()) {
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        });
+        careerPathData = new ArrayList<>();
+        String careerJsonData = "{\n" +
+                "          \"bgcolor_end\": \"#9900b95a\",\n" +
+                "          \"bgcolor_start\": \"#9900b95a\",\n" +
+                "          \"courses\": \"20\",\n" +
+                "          \"id\": \"28\",\n" +
+                "          \"is_buy\": 0,\n" +
+                "          \"is_learned\": 0,\n" +
+                "          \"name\": \"Android服务与通信\",\n" +
+                "          \"numbers\": \"2\",\n" +
+                "          \"pic\": \"http://climg.mukewang.com/593a401900014d6206000338.jpg\",\n" +
+                "          \"price\": 39900,\n" +
+                "          \"share\": \"http://class.imooc.com/sc/28\",\n" +
+                "          \"short_description\": \"广播接收者，服务，AIDL，Socket，蓝牙，ButterKnife，NDK，助你成功敲响企业大门\",\n" +
+                "          \"skills\": [\n" +
+                "            {\n" +
+                "              \"id\": \"223\",\n" +
+                "              \"name\": \"Android\"\n" +
+                "            }\n" +
+                "          ],\n" +
+                "          \"type\": 4\n" +
+                "        }";
+        courseModel = gson.fromJson(careerJsonData, CourseModel.class);
+        for (int i = 0; i < 3; i++) {
+            careerPathData.add(courseModel);
+        }
+        careerPathRecyclerView.setAdapter(new HomeCourseMultiAdapter(careerPathData));
     }
 
     private void initBanner() {

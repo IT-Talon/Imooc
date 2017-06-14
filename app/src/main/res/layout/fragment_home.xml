@@ -4,7 +4,7 @@
               android:layout_height="match_parent"
               android:background="@color/app_bg_color"
               android:orientation="vertical"
-              tools:context="com.hzcwtech.imooc.fragment.HomeFragment">
+              tools:context="com.hzcwtech.imooc.ui.main.HomeFragment">
 
     <include layout="@layout/toolbar_main_activity"/>
 

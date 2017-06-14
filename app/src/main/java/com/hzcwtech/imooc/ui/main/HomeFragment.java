@@ -1,4 +1,4 @@
-package com.hzcwtech.imooc.fragment;
+package com.hzcwtech.imooc.ui.main;
 
 
 import android.content.Context;
@@ -9,14 +9,12 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.util.LogTime;
 import com.google.gson.Gson;
 import com.hzcwtech.imooc.R;
 import com.hzcwtech.imooc.adapter.HomeCourseMultiAdapter;
@@ -24,7 +22,7 @@ import com.hzcwtech.imooc.adapter.HomeTabRecAdapter;
 import com.hzcwtech.imooc.base.BaseFragment;
 import com.hzcwtech.imooc.entity.model.CourseModel;
 import com.hzcwtech.imooc.entity.model.HomeTabModel;
-import com.hzcwtech.imooc.other.GlideImageLoader;
+import com.hzcwtech.imooc.utils.GlideImageLoader;
 import com.hzcwtech.imooc.utils.LogUtil;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;

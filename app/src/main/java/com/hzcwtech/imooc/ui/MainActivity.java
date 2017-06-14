@@ -10,16 +10,17 @@ import android.widget.TabHost;
 import android.widget.TextView;
 
 import com.hzcwtech.imooc.R;
-import com.hzcwtech.imooc.base.BaseAvtivity;
-import com.hzcwtech.imooc.fragment.CourseFragment;
-import com.hzcwtech.imooc.fragment.DownloadFragment;
-import com.hzcwtech.imooc.fragment.HomeFragment;
-import com.hzcwtech.imooc.fragment.MineFragment;
+import com.hzcwtech.imooc.base.BaseActivity;
+import com.hzcwtech.imooc.ui.main.CourseFragment;
+import com.hzcwtech.imooc.ui.main.DownloadFragment;
+import com.hzcwtech.imooc.ui.main.HomeFragment;
+import com.hzcwtech.imooc.ui.main.MineFragment;
+import com.hzcwtech.imooc.utils.ResourceUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends BaseAvtivity {
+public class MainActivity extends BaseActivity {
 
     @BindView(R.id.fragment_content)
     FrameLayout fragmentContent;
@@ -78,5 +79,10 @@ public class MainActivity extends BaseAvtivity {
         textView.setText(mTextviewArray[index]);
 
         return view;
+    }
+
+    @Override
+    protected Integer getStatusBarColor() {
+        return ResourceUtil.getColor(this, R.color.toolbar_background);
     }
 }

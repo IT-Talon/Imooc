@@ -1,4 +1,4 @@
-package com.hzcwtech.imooc.other;
+package com.hzcwtech.imooc.utils;
 
 import android.content.Context;
 import android.widget.ImageView;
@@ -11,6 +11,8 @@ import com.youth.banner.loader.ImageLoader;
  */
 
 public class GlideImageLoader extends ImageLoader {
+
+    private static final long serialVersionUID = -5744242419284444831L;
 
     @Override
     public void displayImage(Context context, Object path, ImageView imageView) {

@@ -1,4 +1,4 @@
-package com.hzcwtech.imooc.fragment;
+package com.hzcwtech.imooc.ui.main;
 
 
 import android.content.Context;

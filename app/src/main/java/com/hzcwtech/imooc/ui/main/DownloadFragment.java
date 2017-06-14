@@ -1,4 +1,4 @@
-package com.hzcwtech.imooc.fragment;
+package com.hzcwtech.imooc.ui.main;
 
 
 import android.os.Bundle;
@@ -19,7 +19,8 @@ import butterknife.Unbinder;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class CourseFragment extends BaseFragment {
+public class DownloadFragment extends BaseFragment {
+
 
     @BindView(R.id.toolbar_name)
     TextView toolbarName;
@@ -31,26 +32,28 @@ public class CourseFragment extends BaseFragment {
     ImageView toolbarShoppingCart;
     Unbinder unbinder;
 
-    public static CourseFragment newInstance() {
+    public static DownloadFragment newInstance() {
 
         Bundle args = new Bundle();
 
-        CourseFragment fragment = new CourseFragment();
+        DownloadFragment fragment = new DownloadFragment();
         fragment.setArguments(args);
         return fragment;
     }
 
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_course, container, false);
+        View view = inflater.inflate(R.layout.fragment_download, container, false);
         unbinder = ButterKnife.bind(this, view);
         initView();
         return view;
     }
 
     private void initView() {
-        toolbarName.setText("课程");
+        toolbarName.setText("下载");
     }
 
     @Override

@@ -17,4 +17,6 @@
     <string name="format_before_days">{0}天前</string>
     <string name="format_year">{0}年</string>
     <string name="format_study_number">{0}人学习</string>
+    <string name="format_course_study_number">{0}门课/{1}人学习</string>
+    <string name="format_course_price">¥{0}.00</string>
 </resources>

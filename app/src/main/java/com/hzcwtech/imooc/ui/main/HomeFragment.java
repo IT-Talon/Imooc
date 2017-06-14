@@ -3,6 +3,7 @@ package com.hzcwtech.imooc.ui.main;
 
 import android.content.Context;
 import android.graphics.Rect;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -14,13 +15,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import com.google.gson.Gson;
 import com.hzcwtech.imooc.R;
 import com.hzcwtech.imooc.adapter.HomeCourseMultiAdapter;
 import com.hzcwtech.imooc.adapter.HomeTabRecAdapter;
+import com.hzcwtech.imooc.app.http.HttpApi;
+import com.hzcwtech.imooc.app.http.RetrofitManager;
 import com.hzcwtech.imooc.base.BaseFragment;
-import com.hzcwtech.imooc.entity.model.CourseModel;
+import com.hzcwtech.imooc.entity.HttpEntity;
+import com.hzcwtech.imooc.entity.model.BannerAdvertModel;
+import com.hzcwtech.imooc.entity.model.BannerModel;
+import com.hzcwtech.imooc.entity.model.CourseDetailModel;
+import com.hzcwtech.imooc.entity.model.CourseSummaryModel;
+import com.hzcwtech.imooc.entity.model.HomePicModel;
 import com.hzcwtech.imooc.entity.model.HomeTabModel;
 import com.hzcwtech.imooc.utils.GlideImageLoader;
 import com.hzcwtech.imooc.utils.LogUtil;
@@ -34,6 +45,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -61,10 +75,10 @@ public class HomeFragment extends BaseFragment {
     RecyclerView careerPathRecyclerView;
     Unbinder unbinder;
 
-    private Integer[] images = {R.mipmap.banner_img1, R.mipmap.banner_img2, R.mipmap.banner_img3, R.mipmap.banner_img4};
     private List<HomeTabModel> homeTabData;
-    private List<CourseModel> homeCourseData;
-    private List<CourseModel> careerPathData;
+    private List<CourseDetailModel> homeCourseData;
+    private List<CourseDetailModel> careerPathData;
+    private List<Uri> bannerData;
 
     public static HomeFragment newInstance() {
 
@@ -82,16 +96,194 @@ public class HomeFragment extends BaseFragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         unbinder = ButterKnife.bind(this, view);
+
         initView();
         LogUtil.d(TAG, "onCreateView: ");
 
         return view;
     }
 
+    private void getdata() {
+        Call<HttpEntity> call = RetrofitManager.getInstance().create(HttpApi.class).getHomeCourse();
+        call.enqueue(new Callback<HttpEntity>() {
+            @Override
+            public void onResponse(Call<HttpEntity> call, Response<HttpEntity> response) {
+                Toast.makeText(getContext(), "ok", Toast.LENGTH_SHORT).show();
+                List<CourseSummaryModel> allCourseData = response.body().getDataObject(new TypeReference<List<CourseSummaryModel>>() {
+                });
+                for (CourseSummaryModel couserSummary : allCourseData) {
+                    // type 1 课程推荐 2 实战推荐 3 新课上路 4 5 慕课精英名师推荐 6 banner广告 7 职业路径
+                    switch (couserSummary.getType()) {
+                        case 1:
+                            initCourseRecomRecyclerView(couserSummary.getCourse());
+                            break;
+                        case 7:
+                            initCareerPathRecyclerView(couserSummary.getCourse());
+                            break;
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<HttpEntity> call, Throwable t) {
+                Toast.makeText(getContext(), "no", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+    }
+
     private void initView() {
+        getBannerData();
+        getdata();
         toolbarName.setText("首页");
-        initBanner();
-        initRecyclerView();
+    }
+
+    private void getBannerData() {
+        bannerData = new ArrayList<>();
+        String bannerJson = "{\n" +
+                "  \"data\": {\n" +
+                "    \"banner\": [\n" +
+                "      {\n" +
+                "        \"id\": 865,\n" +
+                "        \"links\": \"http://coding.imooc.com/class/96.html\",\n" +
+                "        \"name\": \"JAVA企业级\",\n" +
+                "        \"pic\": \"http://img.mukewang.com/592e9c01000181cd07500250.jpg\",\n" +
+                "        \"type\": 99,\n" +
+                "        \"type_id\": 0\n" +
+                "      },\n" +
+                "      {\n" +
+                "        \"id\": 1178,\n" +
+                "        \"links\": \"http://coding.imooc.com/class/106.html\",\n" +
+                "        \"name\": \"热修复与插件化APP的原理及实战\",\n" +
+                "        \"pic\": \"http://img.mukewang.com/5938bbbc00019e3c07500250.jpg\",\n" +
+                "        \"type\": 99,\n" +
+                "        \"type_id\": 0\n" +
+                "      },\n" +
+                "      {\n" +
+                "        \"id\": 889,\n" +
+                "        \"links\": \"http://coding.imooc.com/class/107.html\",\n" +
+                "        \"name\": \"vue音乐APP\",\n" +
+                "        \"pic\": \"http://img.mukewang.com/592e43720001213d07500250.jpg\",\n" +
+                "        \"type\": 99,\n" +
+                "        \"type_id\": 0\n" +
+                "      },\n" +
+                "      {\n" +
+                "        \"id\": 1171,\n" +
+                "        \"links\": \"http://coding.imooc.com/class/109.html\",\n" +
+                "        \"name\": \"手把手从0打造电商平台-前端开发\",\n" +
+                "        \"pic\": \"http://img.mukewang.com/5934cfe60001290007500250.jpg\",\n" +
+                "        \"type\": 99,\n" +
+                "        \"type_id\": 0\n" +
+                "      },\n" +
+                "      {\n" +
+                "        \"id\": 755,\n" +
+                "        \"links\": \"http://coding.imooc.com/class/108.html\",\n" +
+                "        \"name\": \"Kotlin系统入门与进阶\",\n" +
+                "        \"pic\": \"http://img.mukewang.com/59361adf000182d607500250.jpg\",\n" +
+                "        \"type\": 99,\n" +
+                "        \"type_id\": 0\n" +
+                "      },\n" +
+                "      {\n" +
+                "        \"id\": 918,\n" +
+                "        \"links\": \"http://www.imooc.com/wenda/detail/351239 \",\n" +
+                "        \"name\": \"花式填坑第7期\",\n" +
+                "        \"pic\": \"http://img.mukewang.com/5938ae570001909307500250.jpg\",\n" +
+                "        \"type\": 99,\n" +
+                "        \"type_id\": 0\n" +
+                "      }\n" +
+                "    ],\n" +
+                "    \"pic\": [\n" +
+                "      {\n" +
+                "        \"pic\": \"http://www.imooc.com/static/img/andriod/pic/actual_day@1x.png\",\n" +
+                "        \"pic_night\": \"http://www.imooc.com/static/img/andriod/pic/actual_night@1x.png\",\n" +
+                "        \"type\": 2\n" +
+                "      },\n" +
+                "      {\n" +
+                "        \"pic\": \"http://www.imooc.com/static/img/andriod/pic/path_day@1x.png\",\n" +
+                "        \"pic_night\": \"http://www.imooc.com/static/img/andriod/pic/path_night@1x.png\",\n" +
+                "        \"type\": 6\n" +
+                "      },\n" +
+                "      {\n" +
+                "        \"pic\": \"http://www.imooc.com/static/img/andriod/pic/question_day@1x.png\",\n" +
+                "        \"pic_night\": \"http://www.imooc.com/static/img/andriod/pic/question_night@1x.png\",\n" +
+                "        \"type\": 3\n" +
+                "      },\n" +
+                "      {\n" +
+                "        \"pic\": \"http://www.imooc.com/static/img/andriod/pic/note_day@1x.png\",\n" +
+                "        \"pic_night\": \"http://www.imooc.com/static/img/andriod/pic/note_night@1x.png\",\n" +
+                "        \"type\": 4\n" +
+                "      },\n" +
+                "      {\n" +
+                "        \"pic\": \"http://www.imooc.com/static/img/andriod/pic/discover_day@1x.png\",\n" +
+                "        \"pic_night\": \"http://www.imooc.com/static/img/andriod/pic/discover_night@1x.png\",\n" +
+                "        \"type\": 5\n" +
+                "      }\n" +
+                "    ]\n" +
+                "  },\n" +
+                "  \"errorCode\": 1000,\n" +
+                "  \"errorDesc\": \"成功\",\n" +
+                "  \"status\": 0,\n" +
+                "  \"timestamp\": 1497247861869\n" +
+                "}";
+        HttpEntity httpEntity = JSON.parseObject(bannerJson, HttpEntity.class);
+        if (httpEntity.isSuccess()) {
+            BannerAdvertModel bannerAdvertModel = httpEntity.getDataObject(BannerAdvertModel.class);
+            initBanner(bannerAdvertModel.getBanner());
+            initHomePicTab(bannerAdvertModel.getPic());
+        }
+    }
+
+    private void initHomePicTab(List<HomePicModel> pic) {
+        tabRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 5));
+        tabRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
+            @Override
+            public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+                //不是第一个的格子都设一个左边和底部的间距
+                outRect.left = 20;
+                outRect.bottom = 10;
+                outRect.top = 10;
+                //由于每行都只有3个，所以第一个都是3的倍数，把左边距设为0
+                if (parent.getChildLayoutPosition(view) % 5 == 0) {
+                    outRect.left = 0;
+                }
+            }
+        });
+        tabRecyclerView.setAdapter(new HomeTabRecAdapter(pic));
+    }
+
+    private void initCareerPathRecyclerView(List<CourseDetailModel> data) {
+
+        careerPathRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()) {
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        });
+        careerPathRecyclerView.setAdapter(new HomeCourseMultiAdapter(data));
+
+    }
+
+    private void initCourseRecomRecyclerView(List<CourseDetailModel> data) {
+
+        courseRecomRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2) {
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        });
+        courseRecomRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
+            @Override
+            public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+                //不是第一个的格子都设一个左边和底部的间距
+                outRect.left = 22;
+                outRect.bottom = 22;
+                //由于每行都只有3个，所以第一个都是3的倍数，把左边距设为0
+                if (parent.getChildLayoutPosition(view) % 2 == 0) {
+                    outRect.left = 0;
+                }
+            }
+        });
+        courseRecomRecyclerView.setAdapter(new HomeCourseMultiAdapter(data));
 
     }
 
@@ -137,123 +329,14 @@ public class HomeFragment extends BaseFragment {
         super.onDetach();
     }
 
-    private void initRecyclerView() {
-        tabRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 5));
-        tabRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
-            @Override
-            public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-                //不是第一个的格子都设一个左边和底部的间距
-                outRect.left = 20;
-                outRect.bottom = 20;
-                outRect.top = 20;
-                //由于每行都只有3个，所以第一个都是3的倍数，把左边距设为0
-                if (parent.getChildLayoutPosition(view) % 5 == 0) {
-                    outRect.left = 0;
-                }
-            }
-        });
-        homeTabData = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            HomeTabModel model = new HomeTabModel();
-            model.setTabName("实战" + i);
-            model.setImgUrl("http://img.mukewang.com/563aff300001f47400900090.jpg");
-            homeTabData.add(model);
+    private void initBanner(List<BannerModel> banner) {
+        for (BannerModel data : banner) {
+            bannerData.add(Uri.parse(data.getPic()));
         }
-        tabRecyclerView.setAdapter(new HomeTabRecAdapter(homeTabData));
-
-        courseRecomRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2) {
-            @Override
-            public boolean canScrollVertically() {
-                return false;
-            }
-        });
-        courseRecomRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
-            @Override
-            public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-                //不是第一个的格子都设一个左边和底部的间距
-                outRect.left = 22;
-                outRect.bottom = 22;
-                //由于每行都只有3个，所以第一个都是3的倍数，把左边距设为0
-                if (parent.getChildLayoutPosition(view) % 2 == 0) {
-                    outRect.left = 0;
-                }
-            }
-        });
-        homeCourseData = new ArrayList<>();
-        String jsonData = "{\n" +
-                "          \"bgcolor_end\": \"#b3ff739b\",\n" +
-                "          \"bgcolor_start\": \"#ffff739b\",\n" +
-                "          \"course_type\": 1,\n" +
-                "          \"id\": \"847\",\n" +
-                "          \"is_learn\": 0,\n" +
-                "          \"is_learned\": 0,\n" +
-                "          \"level\": \"中级\",\n" +
-                "          \"name\": \"使用java构建和维护接口自动化测试框架\",\n" +
-                "          \"numbers\": \"40\",\n" +
-                "          \"pic\": \"http://www.imooc.com/courseimg/s/cover043_s.jpg\",\n" +
-                "          \"share\": \"http://www.imooc.com/learn/847\",\n" +
-                "          \"short_description\": \"初识接口自动化框架\",\n" +
-                "          \"skills\": [\n" +
-                "            {\n" +
-                "              \"id\": \"220\",\n" +
-                "              \"name\": \"Java\"\n" +
-                "            },\n" +
-                "            {\n" +
-                "              \"id\": \"1422\",\n" +
-                "              \"name\": \"测试\"\n" +
-                "            }\n" +
-                "          ],\n" +
-                "          \"type\": 1\n" +
-                "        }";
-        Gson gson = new Gson();
-        CourseModel courseModel = gson.fromJson(jsonData, CourseModel.class);
-        for (int i = 0; i < 6; i++) {
-            homeCourseData.add(courseModel);
-        }
-        courseRecomRecyclerView.setAdapter(new HomeCourseMultiAdapter(homeCourseData));
-
-        careerPathRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()) {
-            @Override
-            public boolean canScrollVertically() {
-                return false;
-            }
-        });
-        careerPathData = new ArrayList<>();
-        String careerJsonData = "{\n" +
-                "          \"bgcolor_end\": \"#9900b95a\",\n" +
-                "          \"bgcolor_start\": \"#9900b95a\",\n" +
-                "          \"courses\": \"20\",\n" +
-                "          \"id\": \"28\",\n" +
-                "          \"is_buy\": 0,\n" +
-                "          \"is_learned\": 0,\n" +
-                "          \"name\": \"Android服务与通信\",\n" +
-                "          \"numbers\": \"2\",\n" +
-                "          \"pic\": \"http://climg.mukewang.com/593a401900014d6206000338.jpg\",\n" +
-                "          \"price\": 39900,\n" +
-                "          \"share\": \"http://class.imooc.com/sc/28\",\n" +
-                "          \"short_description\": \"广播接收者，服务，AIDL，Socket，蓝牙，ButterKnife，NDK，助你成功敲响企业大门\",\n" +
-                "          \"skills\": [\n" +
-                "            {\n" +
-                "              \"id\": \"223\",\n" +
-                "              \"name\": \"Android\"\n" +
-                "            }\n" +
-                "          ],\n" +
-                "          \"type\": 4\n" +
-                "        }";
-        courseModel = gson.fromJson(careerJsonData, CourseModel.class);
-        for (int i = 0; i < 3; i++) {
-            careerPathData.add(courseModel);
-        }
-        careerPathRecyclerView.setAdapter(new HomeCourseMultiAdapter(careerPathData));
-    }
-
-    private void initBanner() {
         //设置图片加载器
         mBanner.setImageLoader(new GlideImageLoader());
         //设置图片集合
-        List<Integer> imgList = new ArrayList<>();
-        Collections.addAll(imgList, images);
-        mBanner.setImages(imgList);
+        mBanner.setImages(bannerData);
         //设置自动轮播，默认为true
         mBanner.isAutoPlay(true);
         //设置轮播时间

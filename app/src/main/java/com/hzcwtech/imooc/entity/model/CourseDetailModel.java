@@ -7,7 +7,7 @@ import java.util.List;
  * Created by Talon on 2017/6/12.
  */
 
-public class CourseModel implements Serializable {
+public class CourseDetailModel implements Serializable {
     private static final long serialVersionUID = -1692352206457970198L;
 
     /**
@@ -41,6 +41,24 @@ public class CourseModel implements Serializable {
     private String short_description;
     private int type;
     private List<SkillsModel> skills;
+    private int courses;
+    private int price;
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public int getCourses() {
+        return courses;
+    }
+
+    public void setCourses(int courses) {
+        this.courses = courses;
+    }
 
     public String getBgcolor_end() {
         return bgcolor_end;

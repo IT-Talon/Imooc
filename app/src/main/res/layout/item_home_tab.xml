@@ -9,16 +9,15 @@
         android:id="@+id/img_home_tab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="3dp"
         android:scaleType="centerInside"
         android:src="@drawable/subtitle_download"/>
-
-    <TextView
-        android:id="@+id/name_home_tab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="3dp"
-        android:text="实战"
-        android:textSize="@dimen/text_size_small"/>
+    <!--
+        <TextView
+            android:id="@+id/name_home_tab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="3dp"
+            android:text="实战"
+            android:textSize="@dimen/text_size_small"/>-->
 
 </LinearLayout>

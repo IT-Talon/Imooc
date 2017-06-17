@@ -21,7 +21,9 @@ import android.provider.Settings;
 import android.text.Html;
 import android.text.SpannableString;
 import android.text.Spanned;
+import android.text.format.Formatter;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -32,7 +34,10 @@ import com.hzcwtech.imooc.R;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -50,8 +55,7 @@ import java.util.regex.Pattern;
 /**
  * Created by 003 on 2016-12-08.
  */
-public class CommonUtil
-{
+public class CommonUtil {
     private static final int DEFAULT_STATUS_BAR_HEIGHT_DP = 25;
 
     private static final String MOBILE_REGEX_CH = "1[3|4|5|7|8]\\d{9}";
@@ -62,33 +66,28 @@ public class CommonUtil
 
     private static int screenWidth;
 
-    public static int dp2px(Context context, float dpValue)
-    {
+    public static int dp2px(Context context, float dpValue) {
         float scale = context.getResources().getDisplayMetrics().density;
         float px = dpValue * scale;
-        int pxInt = (int)px;
-        return px == pxInt? pxInt: pxInt + 1;
+        int pxInt = (int) px;
+        return px == pxInt ? pxInt : pxInt + 1;
     }
 
-    public static int px2dp(Context context, float pxValue)
-    {
+    public static int px2dp(Context context, float pxValue) {
         float scale = context.getResources().getDisplayMetrics().density;
         float dp = pxValue / scale;
-        int dpInt = (int)dp;
-        return dp == dpInt? dpInt: dpInt + 1;
+        int dpInt = (int) dp;
+        return dp == dpInt ? dpInt : dpInt + 1;
     }
 
-    public static boolean isNetworkAvailable(Context context)
-    {
+    public static boolean isNetworkAvailable(Context context) {
         boolean available = false;
-        ConnectivityManager cm = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 
-        if(cm != null)
-        {
+        if (cm != null) {
             NetworkInfo networkInfo = cm.getActiveNetworkInfo();
 
-            if(networkInfo != null && networkInfo.isAvailable() && networkInfo.isConnected())
-            {
+            if (networkInfo != null && networkInfo.isAvailable() && networkInfo.isConnected()) {
                 available = true;
             }
         }
@@ -99,44 +98,37 @@ public class CommonUtil
     /**
      * 获取应用通知状态
      */
-    public static boolean isNotificationEnabled(Context context)
-    {
-        AppOpsManager appOps = (AppOpsManager)context.getSystemService(Context.APP_OPS_SERVICE);
+    public static boolean isNotificationEnabled(Context context) {
+        AppOpsManager appOps = (AppOpsManager) context.getSystemService(Context.APP_OPS_SERVICE);
         ApplicationInfo appInfo = context.getApplicationInfo();
         String packageName = context.getApplicationContext().getPackageName();
         int uid = appInfo.uid;
 
-        try
-        {
+        try {
             Class<?> appOpsClass = Class.forName(AppOpsManager.class.getName());
             Method checkOpNoThrowMethod = appOpsClass.getDeclaredMethod("checkOpNoThrow", Integer.TYPE, Integer.TYPE, String.class);
             checkOpNoThrowMethod.setAccessible(true);
             Field opPostNotificationValue = appOpsClass.getDeclaredField("OP_POST_NOTIFICATION");
             opPostNotificationValue.setAccessible(true);
-            int value = (int)opPostNotificationValue.get(Integer.class);
-            return ((int)checkOpNoThrowMethod.invoke(appOps, value, uid, packageName) == AppOpsManager.MODE_ALLOWED);
-        }
-        catch(Throwable t)
-        {
+            int value = (int) opPostNotificationValue.get(Integer.class);
+            return ((int) checkOpNoThrowMethod.invoke(appOps, value, uid, packageName) == AppOpsManager.MODE_ALLOWED);
+        } catch (Throwable t) {
             t.printStackTrace();
         }
 
         return false;
     }
 
-    public static void startSetting(Activity activity)
-    {
+    public static void startSetting(Activity activity) {
         activity.startActivity(new Intent(Settings.ACTION_SETTINGS));
     }
 
 
     @TargetApi(VERSION_CODES.KITKAT)
-    public static boolean hideStatusBarIfSupported(Activity activity)
-    {
+    public static boolean hideStatusBarIfSupported(Activity activity) {
         boolean hasHide = false;
 
-        if(VERSION.SDK_INT >= VERSION_CODES.KITKAT)
-        {
+        if (VERSION.SDK_INT >= VERSION_CODES.KITKAT) {
             Window window = activity.getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             hasHide = true;
@@ -146,10 +138,8 @@ public class CommonUtil
     }
 
     @TargetApi(VERSION_CODES.KITKAT)
-    public static void setStatusBarColorIfSupported(Activity activity, int color)
-    {
-        if(VERSION.SDK_INT >= VERSION_CODES.KITKAT)
-        {
+    public static void setStatusBarColorIfSupported(Activity activity, int color) {
+        if (VERSION.SDK_INT >= VERSION_CODES.KITKAT) {
             hideStatusBarIfSupported(activity);
             getContentView(activity).setFitsSystemWindows(true);
             SystemBarTintManager tintManager = new SystemBarTintManager(activity);
@@ -158,44 +148,36 @@ public class CommonUtil
         }
     }
 
-    public static void resetTopViewHeight(Context context, View topView)
-    {
+    public static void resetTopViewHeight(Context context, View topView) {
         int statusBarHeight = getStatusBarHeightKitkatOrHigh(context);
         topView.setPadding(topView.getPaddingLeft(), topView.getPaddingTop() + statusBarHeight, topView.getPaddingRight(), topView.getPaddingBottom());
         ViewGroup.LayoutParams lp = topView.getLayoutParams();
 
-        if(lp != null && lp.height > 0)
-        {
+        if (lp != null && lp.height > 0) {
             lp.height += statusBarHeight;
         }
     }
 
-    public static void resetSimulateStatusViewHeight (Context context, View simulateStatusView)
-    {
+    public static void resetSimulateStatusViewHeight(Context context, View simulateStatusView) {
         int statusBarHeight = getStatusBarHeightKitkatOrHigh(context);
 
         ViewGroup.LayoutParams layoutParams = simulateStatusView.getLayoutParams();
 
-        if (layoutParams !=null)
-        {
+        if (layoutParams != null) {
             layoutParams.height = statusBarHeight;
         }
     }
 
-    public static int getStatusBarHeight(int defaultHeight)
-    {
-        if(statusBarHeight == 0)
-        {
+    public static int getStatusBarHeight(int defaultHeight) {
+        if (statusBarHeight == 0) {
             Resources resources = Resources.getSystem();
             int resId = resources.getIdentifier("status_bar_height", "dimen", "android");
 
-            if(resId > 0)
-            {
+            if (resId > 0) {
                 statusBarHeight = resources.getDimensionPixelSize(resId);
             }
 
-            if(statusBarHeight == 0)
-            {
+            if (statusBarHeight == 0) {
                 statusBarHeight = defaultHeight;
             }
         }
@@ -203,61 +185,51 @@ public class CommonUtil
         return statusBarHeight;
     }
 
-    public static int getStatusBarHeight(Context context)
-    {
+    public static int getStatusBarHeight(Context context) {
         return getStatusBarHeight(dp2px(context, DEFAULT_STATUS_BAR_HEIGHT_DP));
     }
 
-    public static int getStatusBarHeightKitkatOrHigh(Context context)
-    {
+    public static int getStatusBarHeightKitkatOrHigh(Context context) {
         return getStatusBarHeightKitkatOrHigh(dp2px(context, DEFAULT_STATUS_BAR_HEIGHT_DP));
     }
 
     @TargetApi(VERSION_CODES.KITKAT)
-    public static int getStatusBarHeightKitkatOrHigh(int defaultHeight)
-    {
+    public static int getStatusBarHeightKitkatOrHigh(int defaultHeight) {
         int height = 0;
 
-        if(VERSION.SDK_INT >= VERSION_CODES.KITKAT)
-        {
+        if (VERSION.SDK_INT >= VERSION_CODES.KITKAT) {
             height = getStatusBarHeight(defaultHeight);
         }
 
         return height;
     }
 
-    public static View getContentView(Activity activity)
-    {
-        return ((ViewGroup)activity.findViewById(android.R.id.content)).getChildAt(0);
+    public static View getContentView(Activity activity) {
+        return ((ViewGroup) activity.findViewById(android.R.id.content)).getChildAt(0);
     }
 
-    public static CharSequence fillString(Context context, int strResId, Object... args)
-    {
+    public static CharSequence fillString(Context context, int strResId, Object... args) {
         String str = ResourceUtil.getString(context, strResId);
         return fillString(str, args);
     }
 
-    public static CharSequence fillHtmlString(Context context, int strResId, Object... args)
-    {
+    public static CharSequence fillHtmlString(Context context, int strResId, Object... args) {
         String str = ResourceUtil.getString(context, strResId);
         return fillHtmlString(str, args);
     }
 
-    public static CharSequence fillString(String baseStr, Object... args)
-    {
+    public static CharSequence fillString(String baseStr, Object... args) {
         return MessageFormat.format(baseStr, args);
     }
 
     @SuppressWarnings("deprecation")
-    public static CharSequence fillHtmlString(String baseStr, Object... args)
-    {
+    public static CharSequence fillHtmlString(String baseStr, Object... args) {
         CharSequence str = fillString(baseStr, args);
         str = Html.fromHtml(str.toString());
         return str;
     }
 
-    public static String formatChatTime(Context context, long time)
-    {
+    public static String formatChatTime(Context context, long time) {
         String timeForShow;
         Calendar calendar = Calendar.getInstance();
         long currentMillis = calendar.getTimeInMillis();
@@ -265,40 +237,32 @@ public class CommonUtil
         long deltaTime = deltaMillis / 1000;
 
         //1分钟内
-        if(deltaTime < 60)
-        {
+        if (deltaTime < 60) {
             timeForShow = ResourceUtil.getString(context, R.string.just_now);
         }
         //1小时内
-        else if((deltaTime /= 60) < 60)
-        {
+        else if ((deltaTime /= 60) < 60) {
             timeForShow = CommonUtil.fillString(context, R.string.format_before_minutes, deltaTime).toString();
         }
         //24小时内
-        else if((deltaTime /= 60) < 24)
-        {
+        else if ((deltaTime /= 60) < 24) {
             timeForShow = CommonUtil.fillString(context, R.string.format_before_hours, deltaTime).toString();
         }
         //7天内
-        else if((deltaTime /= 24) < 7)
-        {
+        else if ((deltaTime /= 24) < 7) {
             timeForShow = CommonUtil.fillString(context, R.string.format_before_days, deltaTime).toString();
-        }
-        else
-        {
+        } else {
             calendar.add(Calendar.YEAR, -1);
             Calendar source = Calendar.getInstance();
             source.setTimeInMillis(time);
 
             //1年内
-            if(deltaMillis < currentMillis - calendar.getTimeInMillis())
-            {
+            if (deltaMillis < currentMillis - calendar.getTimeInMillis()) {
                 SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd HH:mm");
                 timeForShow = dateFormat.format(source.getTime());
             }
             //超过1年
-            else
-            {
+            else {
                 timeForShow = CommonUtil.fillString(context, R.string.format_year, source.get(Calendar.YEAR)).toString();
             }
         }
@@ -306,41 +270,32 @@ public class CommonUtil
         return timeForShow;
     }
 
-    public static String fillDateTimeNum(int num)
-    {
-        return num < 10? "0" + num: String.valueOf(num);
+    public static String fillDateTimeNum(int num) {
+        return num < 10 ? "0" + num : String.valueOf(num);
     }
 
-    public static MediaPlayer getMediaPlayer(Context context, File file)
-    {
+    public static MediaPlayer getMediaPlayer(Context context, File file) {
         MediaPlayer mediaPlayer = null;
 
-        try
-        {
+        try {
             mediaPlayer = MediaPlayer.create(context, Uri.fromFile(file));
-        }
-        catch(Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
         return mediaPlayer;
     }
 
-    public static String getProcessName(Context context)
-    {
+    public static String getProcessName(Context context) {
         String processName = null;
-        ActivityManager activityManager = (ActivityManager)context.getSystemService(Context.ACTIVITY_SERVICE);
+        ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         List<RunningAppProcessInfo> processInfos = activityManager.getRunningAppProcesses();
 
-        if(processInfos != null && !processInfos.isEmpty())
-        {
+        if (processInfos != null && !processInfos.isEmpty()) {
             int pid = android.os.Process.myPid();
 
-            for(RunningAppProcessInfo processInfo: processInfos)
-            {
-                if(processInfo.pid == pid)
-                {
+            for (RunningAppProcessInfo processInfo : processInfos) {
+                if (processInfo.pid == pid) {
                     processName = processInfo.processName;
                     break;
                 }
@@ -352,27 +307,26 @@ public class CommonUtil
 
     /**
      * 判断是否为主线程
+     *
      * @param context
      * @return
      */
-    public static boolean isMainProcess(Context context)
-    {
+    public static boolean isMainProcess(Context context) {
         String processName = getProcessName(context);
         return processName != null && processName.equals(context.getPackageName());
     }
 
 
-    public static boolean validateMobile(String mobile, boolean chinese)
-    {
-        return mobile != null && mobile.matches(chinese? MOBILE_REGEX_CH: MOBILE_REGEX);
+    public static boolean validateMobile(String mobile, boolean chinese) {
+        return mobile != null && mobile.matches(chinese ? MOBILE_REGEX_CH : MOBILE_REGEX);
     }
 
     /**
      * 晃动View
+     *
      * @param view
      */
-    public static void shakeView(View view)
-    {
+    public static void shakeView(View view) {
         view.clearAnimation();
         view.setTranslationX(0);
         int deltaX = dp2px(view.getContext(), 10);
@@ -382,10 +336,8 @@ public class CommonUtil
         animator.start();
     }
 
-    public static int getScreenWidth(Activity activity)
-    {
-        if(screenWidth == 0)
-        {
+    public static int getScreenWidth(Activity activity) {
+        if (screenWidth == 0) {
             WindowManager wm = activity.getWindowManager();
             Point size = new Point();
             wm.getDefaultDisplay().getSize(size);
@@ -397,43 +349,38 @@ public class CommonUtil
 
     /**
      * 格式化单位
+     *
      * @param byteSize
      * @return
      */
-    public static String getFormatSize(double byteSize)
-    {
+    public static String getFormatSize(double byteSize) {
         double kiloByte = byteSize / 1024;
 
-        if(kiloByte == 0)
-        {
+        if (kiloByte == 0) {
             return "0.00MB";
         }
 
-        if(kiloByte < 1)
-        {
+        if (kiloByte < 1) {
             return byteSize + "Byte";
         }
 
         double megaByte = kiloByte / 1024;
 
-        if(megaByte < 1)
-        {
+        if (megaByte < 1) {
             BigDecimal result1 = new BigDecimal(Double.toString(kiloByte));
             return result1.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString() + "KB";
         }
 
         double gigaByte = megaByte / 1024;
 
-        if(gigaByte < 1)
-        {
+        if (gigaByte < 1) {
             BigDecimal result2 = new BigDecimal(Double.toString(megaByte));
             return result2.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString() + "MB";
         }
 
         double teraBytes = gigaByte / 1024;
 
-        if(teraBytes < 1)
-        {
+        if (teraBytes < 1) {
             BigDecimal result3 = new BigDecimal(Double.toString(gigaByte));
             return result3.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString() + "GB";
         }
@@ -445,14 +392,12 @@ public class CommonUtil
     /**
      * 搜索关键字高亮
      */
-    public static SpannableString matcherSearchText(int color, String text, String keyword)
-    {
+    public static SpannableString matcherSearchText(int color, String text, String keyword) {
         SpannableString ss = new SpannableString(text);
         Pattern pattern = Pattern.compile(keyword);
         Matcher matcher = pattern.matcher(ss);
 
-        while(matcher.find())
-        {
+        while (matcher.find()) {
             int start = matcher.start();
             int end = matcher.end();
             ss.setSpan(new ForegroundColorSpan(color), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -463,61 +408,49 @@ public class CommonUtil
 
     /**
      * 反射module
+     *
      * @param from
      * @param to
      * @param clazz
      * @param excludedFields
      */
-    public static void copyProperties(Object from, Object to, Class<?> clazz, String... excludedFields)
-    {
-        if(from == null || to == null)
-        {
+    public static void copyProperties(Object from, Object to, Class<?> clazz, String... excludedFields) {
+        if (from == null || to == null) {
             return;
         }
 
         Set<String> excludedSet = new HashSet<>();
 
-        if(excludedFields != null && excludedFields.length > 0)
-        {
-            for(String field: excludedFields)
-            {
+        if (excludedFields != null && excludedFields.length > 0) {
+            for (String field : excludedFields) {
                 excludedSet.add(field);
             }
         }
 
-        try
-        {
+        try {
             Field[] fields = clazz.getDeclaredFields();
             String fieldName, fieldName4Method, methodGetName, methodSetName;
             Method methodGet, methodSet;
             Object value;
             Class<?> type;
 
-            for(Field field: fields)
-            {
+            for (Field field : fields) {
                 fieldName = field.getName();
 
-                if(Modifier.isStatic(field.getModifiers()) || excludedSet.contains(fieldName))
-                {
+                if (Modifier.isStatic(field.getModifiers()) || excludedSet.contains(fieldName)) {
                     continue;
                 }
 
                 type = field.getType();
                 fieldName4Method = Character.toUpperCase(fieldName.charAt(0)) + fieldName.substring(1);
 
-                if(type.getSimpleName().equalsIgnoreCase("boolean"))
-                {
-                    if(fieldName.startsWith("is"))
-                    {
+                if (type.getSimpleName().equalsIgnoreCase("boolean")) {
+                    if (fieldName.startsWith("is")) {
                         methodGetName = fieldName;
-                    }
-                    else
-                    {
+                    } else {
                         methodGetName = "is" + fieldName4Method;
                     }
-                }
-                else
-                {
+                } else {
                     methodGetName = "get" + fieldName4Method;
                 }
 
@@ -527,39 +460,93 @@ public class CommonUtil
                 value = methodGet.invoke(from);
                 methodSet.invoke(to, value);
             }
-        }
-        catch(Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public static int parseInt(String str)
-    {
+    public static int parseInt(String str) {
         int value = 0;
 
-        try
-        {
+        try {
             value = Integer.parseInt(str);
+        } catch (Exception e) {
         }
-        catch(Exception e)
-        {}
 
         return value;
     }
 
-    public static long parseLong(String str)
-    {
+    public static long parseLong(String str) {
         long value = 0;
 
-        try
-        {
+        try {
             value = Long.parseLong(str);
+        } catch (Exception e) {
         }
-        catch(Exception e)
-        {}
 
         return value;
     }
 
+    public static String getAvailMemory(Context context, boolean isNeedFormat) {// 获取android当前可用内存大小
+
+        ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        ActivityManager.MemoryInfo mi = new ActivityManager.MemoryInfo();
+        am.getMemoryInfo(mi);
+        //mi.availMem; 当前系统的可用内存
+        if (isNeedFormat) {
+            return Formatter.formatFileSize(context, mi.availMem);// 将获取的内存大小规格化
+        } else {
+            return String.valueOf(mi.availMem);
+        }
+
+    }
+
+    public static String getTotalMemory(Context context) {
+        String str1 = "/proc/meminfo";// 系统内存信息文件
+        String str2;
+        String[] arrayOfString;
+        long initial_memory = 0;
+
+        try {
+            FileReader localFileReader = new FileReader(str1);
+            BufferedReader localBufferedReader = new BufferedReader(
+                    localFileReader, 8192);
+            str2 = localBufferedReader.readLine();// 读取meminfo第一行，系统总内存大小
+
+            arrayOfString = str2.split("//s+");
+            for (String num : arrayOfString) {
+                Log.i(str2, num + "/t");
+            }
+
+            initial_memory = Integer.valueOf(arrayOfString[1]).intValue() * 1024;// 获得系统总内存，单位是KB，乘以1024转换为Byte
+            localBufferedReader.close();
+
+        } catch (IOException e) {
+        }
+        return Formatter.formatFileSize(context, initial_memory);// Byte转换为KB或者MB，内存大小规格化
+    }
+
+    /*
+      * 计算已使用内存的百分比
+     *
+     */
+    public static int getUsedPercentValue(Context context) {
+        int res = 0;
+        String dir = "/proc/meminfo";
+        try {
+            FileReader fr = new FileReader(dir);
+            BufferedReader br = new BufferedReader(fr, 2048);
+            String memoryLine = br.readLine();
+            String subMemoryLine = memoryLine.substring(memoryLine.indexOf("MemTotal:"));
+            br.close();
+            long totalMemorySize = Integer.parseInt(subMemoryLine.replaceAll("\\D+", ""));
+            long availableSize = Long.valueOf(getAvailMemory(context, false)) / 1024;
+            int percent = (int) ((totalMemorySize - availableSize) / (float) totalMemorySize * 100);
+            res = percent;
+            return res;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return res;
+    }
 }

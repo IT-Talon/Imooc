@@ -43,6 +43,9 @@ public class CourseDetailModel implements Serializable {
     private List<SkillsModel> skills;
     private int courses;
     private int price;
+    private boolean is_buy;
+    private int order_type;
+    private String wap;
 
     public int getPrice() {
         return price;
@@ -172,29 +175,27 @@ public class CourseDetailModel implements Serializable {
         this.skills = skills;
     }
 
-    public static class SkillsBean {
-        /**
-         * id : 220
-         * name : Java
-         */
+    public boolean is_buy() {
+        return is_buy;
+    }
 
-        private String id;
-        private String name;
+    public void setIs_buy(boolean is_buy) {
+        this.is_buy = is_buy;
+    }
 
-        public String getId() {
-            return id;
-        }
+    public int getOrder_type() {
+        return order_type;
+    }
 
-        public void setId(String id) {
-            this.id = id;
-        }
+    public void setOrder_type(int order_type) {
+        this.order_type = order_type;
+    }
 
-        public String getName() {
-            return name;
-        }
+    public String getWap() {
+        return wap;
+    }
 
-        public void setName(String name) {
-            this.name = name;
-        }
+    public void setWap(String wap) {
+        this.wap = wap;
     }
 }

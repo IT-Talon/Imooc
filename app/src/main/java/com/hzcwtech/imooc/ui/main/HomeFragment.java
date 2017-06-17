@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -73,8 +74,13 @@ public class HomeFragment extends BaseFragment {
     RecyclerView courseRecomRecyclerView;
     @BindView(R.id.recyclerView_career_path)
     RecyclerView careerPathRecyclerView;
+    @BindView(R.id.swipe_home_fragment)
+    SwipeRefreshLayout mSwipeRefreshLayout;
     Unbinder unbinder;
 
+    private HomeCourseMultiAdapter mRecomAadapter;
+    private HomeCourseMultiAdapter mCareerPathAdapter;
+    private HomeTabRecAdapter mTabPicAadapter;
     private List<HomeTabModel> homeTabData;
     private List<CourseDetailModel> homeCourseData;
     private List<CourseDetailModel> careerPathData;
@@ -108,34 +114,104 @@ public class HomeFragment extends BaseFragment {
         call.enqueue(new Callback<HttpEntity>() {
             @Override
             public void onResponse(Call<HttpEntity> call, Response<HttpEntity> response) {
-                Toast.makeText(getContext(), "ok", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "网络请求成功", Toast.LENGTH_SHORT).show();
                 List<CourseSummaryModel> allCourseData = response.body().getDataObject(new TypeReference<List<CourseSummaryModel>>() {
                 });
                 for (CourseSummaryModel couserSummary : allCourseData) {
                     // type 1 课程推荐 2 实战推荐 3 新课上路 4 5 慕课精英名师推荐 6 banner广告 7 职业路径
                     switch (couserSummary.getType()) {
                         case 1:
-                            initCourseRecomRecyclerView(couserSummary.getCourse());
+                            mRecomAadapter.setNewData(couserSummary.getCourse());
                             break;
                         case 7:
-                            initCareerPathRecyclerView(couserSummary.getCourse());
+                            mCareerPathAdapter.setNewData(couserSummary.getCourse());
                             break;
                     }
+                }
+                if (mSwipeRefreshLayout.isRefreshing()) {
+                    mSwipeRefreshLayout.setRefreshing(false);
                 }
             }
 
             @Override
             public void onFailure(Call<HttpEntity> call, Throwable t) {
-                Toast.makeText(getContext(), "no", Toast.LENGTH_SHORT).show();
-
+                Toast.makeText(getContext(), "网络请求失败", Toast.LENGTH_SHORT).show();
+                if (mSwipeRefreshLayout.isRefreshing()) {
+                    mSwipeRefreshLayout.setRefreshing(false);
+                }
             }
         });
     }
 
     private void initView() {
+        initSwipeRefresh();
+        initRecyclerView();
         getBannerData();
         getdata();
         toolbarName.setText("首页");
+    }
+
+    private void initRecyclerView() {
+        mTabPicAadapter = new HomeTabRecAdapter(new ArrayList<HomePicModel>());
+        tabRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 5));
+        tabRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
+            @Override
+            public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+                //不是第一个的格子都设一个左边和底部的间距
+                outRect.left = 20;
+                outRect.bottom = 10;
+                outRect.top = 10;
+                //由于每行都只有3个，所以第一个都是3的倍数，把左边距设为0
+                if (parent.getChildLayoutPosition(view) % 5 == 0) {
+                    outRect.left = 0;
+                }
+            }
+        });
+        tabRecyclerView.setAdapter(mTabPicAadapter);
+
+        mRecomAadapter = new HomeCourseMultiAdapter(new ArrayList<CourseDetailModel>());
+        courseRecomRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2) {
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        });
+        courseRecomRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
+            @Override
+            public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+                //不是第一个的格子都设一个左边和底部的间距
+                outRect.left = 22;
+                outRect.bottom = 22;
+                //由于每行都只有3个，所以第一个都是3的倍数，把左边距设为0
+                if (parent.getChildLayoutPosition(view) % 2 == 0) {
+                    outRect.left = 0;
+                }
+            }
+        });
+        courseRecomRecyclerView.setAdapter(mRecomAadapter);
+
+        mCareerPathAdapter = new HomeCourseMultiAdapter(new ArrayList<CourseDetailModel>());
+        careerPathRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()) {
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        });
+        careerPathRecyclerView.setAdapter(mCareerPathAdapter);
+    }
+
+    private void initSwipeRefresh() {
+        mSwipeRefreshLayout.setProgressBackgroundColorSchemeResource(android.R.color.white);
+        mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_light,
+                android.R.color.holo_red_light, android.R.color.holo_orange_light,
+                android.R.color.holo_green_light);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getBannerData();
+                getdata();
+            }
+        });
     }
 
     private void getBannerData() {
@@ -229,63 +305,10 @@ public class HomeFragment extends BaseFragment {
         if (httpEntity.isSuccess()) {
             BannerAdvertModel bannerAdvertModel = httpEntity.getDataObject(BannerAdvertModel.class);
             initBanner(bannerAdvertModel.getBanner());
-            initHomePicTab(bannerAdvertModel.getPic());
+            mTabPicAadapter.setNewData(bannerAdvertModel.getPic());
         }
     }
 
-    private void initHomePicTab(List<HomePicModel> pic) {
-        tabRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 5));
-        tabRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
-            @Override
-            public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-                //不是第一个的格子都设一个左边和底部的间距
-                outRect.left = 20;
-                outRect.bottom = 10;
-                outRect.top = 10;
-                //由于每行都只有3个，所以第一个都是3的倍数，把左边距设为0
-                if (parent.getChildLayoutPosition(view) % 5 == 0) {
-                    outRect.left = 0;
-                }
-            }
-        });
-        tabRecyclerView.setAdapter(new HomeTabRecAdapter(pic));
-    }
-
-    private void initCareerPathRecyclerView(List<CourseDetailModel> data) {
-
-        careerPathRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()) {
-            @Override
-            public boolean canScrollVertically() {
-                return false;
-            }
-        });
-        careerPathRecyclerView.setAdapter(new HomeCourseMultiAdapter(data));
-
-    }
-
-    private void initCourseRecomRecyclerView(List<CourseDetailModel> data) {
-
-        courseRecomRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2) {
-            @Override
-            public boolean canScrollVertically() {
-                return false;
-            }
-        });
-        courseRecomRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
-            @Override
-            public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-                //不是第一个的格子都设一个左边和底部的间距
-                outRect.left = 22;
-                outRect.bottom = 22;
-                //由于每行都只有3个，所以第一个都是3的倍数，把左边距设为0
-                if (parent.getChildLayoutPosition(view) % 2 == 0) {
-                    outRect.left = 0;
-                }
-            }
-        });
-        courseRecomRecyclerView.setAdapter(new HomeCourseMultiAdapter(data));
-
-    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

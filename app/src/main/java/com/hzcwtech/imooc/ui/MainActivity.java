@@ -16,6 +16,7 @@ import com.hzcwtech.imooc.ui.main.DownloadFragment;
 import com.hzcwtech.imooc.ui.main.HomeFragment;
 import com.hzcwtech.imooc.ui.main.MineFragment;
 import com.hzcwtech.imooc.utils.ResourceUtil;
+import com.hzcwtech.imooc.view.TabFragmentHost;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -27,7 +28,7 @@ public class MainActivity extends BaseActivity {
     @BindView(R.id.tabContent)
     FrameLayout tabContent;
     @BindView(R.id.tabHost)
-    FragmentTabHost mTabHost;
+    TabFragmentHost mTabHost;
 
     //定义数组来存放Fragment界面
     private Class fragmentArray[] = {HomeFragment.class, CourseFragment.class, DownloadFragment.class, MineFragment.class};

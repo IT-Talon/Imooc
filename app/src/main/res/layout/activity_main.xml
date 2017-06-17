@@ -18,7 +18,7 @@
         android:layout_height="0.5dp"
         android:background="@color/grey_4c_trans"/>
 
-    <android.support.v4.app.FragmentTabHost
+    <com.hzcwtech.imooc.view.TabFragmentHost
         android:id="@+id/tabHost"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -28,6 +28,6 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_weight="0"/>
-    </android.support.v4.app.FragmentTabHost>
+    </com.hzcwtech.imooc.view.TabFragmentHost>
 
 </LinearLayout>

@@ -9,19 +9,26 @@ import java.io.Serializable;
 public class SkillsModel implements Serializable {
     private static final long serialVersionUID = -2992278815019879947L;
 
+
     /**
-     * id : 220
-     * name : Java
+     * id : 7
+     * name : HTML/CSS
+     * numbers : 41
+     * pic : http://img.mukewang.com/565ec2670001146402400240-240-240.jpg
+     * typestate : 0
      */
 
-    private String id;
+    private int id;
     private String name;
+    private int numbers;
+    private String pic;
+    private int typestate;
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -31,5 +38,29 @@ public class SkillsModel implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getNumbers() {
+        return numbers;
+    }
+
+    public void setNumbers(int numbers) {
+        this.numbers = numbers;
+    }
+
+    public String getPic() {
+        return pic;
+    }
+
+    public void setPic(String pic) {
+        this.pic = pic;
+    }
+
+    public int getTypestate() {
+        return typestate;
+    }
+
+    public void setTypestate(int typestate) {
+        this.typestate = typestate;
     }
 }

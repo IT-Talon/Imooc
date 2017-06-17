@@ -9,113 +9,119 @@
 
     <include layout="@layout/toolbar_main_activity"/>
 
-    <ScrollView
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_home_fragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:overScrollMode="never"
-        android:scrollbars="none">
+        android:layout_height="match_parent">
 
-        <LinearLayout
+
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="match_parent"
+            android:overScrollMode="never"
+            android:scrollbars="none">
 
-            <com.youth.banner.Banner
-                android:id="@+id/banner_home"
-                android:layout_width="match_parent"
-                android:layout_height="150dp"
-                app:image_scale_type="fit_xy">
-
-            </com.youth.banner.Banner>
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/tab_recyclerView"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white">
+                android:orientation="vertical">
 
-            </android.support.v7.widget.RecyclerView>
+                <com.youth.banner.Banner
+                    android:id="@+id/banner_home"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    app:image_scale_type="fit_xy">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="45dp">
+                </com.youth.banner.Banner>
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/tab_recyclerView"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:drawableLeft="@drawable/my_course"
-                    android:drawablePadding="5dp"
-                    android:gravity="center"
-                    android:text="@string/course_recommend"
-                    android:textColor="@color/grey_4c"
-                    android:textSize="@dimen/text_size_middle"/>
+                    android:background="@color/white">
 
-                <TextView
-                    android:id="@+id/change"
-                    android:layout_width="wrap_content"
+                </android.support.v7.widget.RecyclerView>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:drawableLeft="@drawable/my_course"
+                        android:drawablePadding="5dp"
+                        android:gravity="center"
+                        android:text="@string/course_recommend"
+                        android:textColor="@color/grey_4c"
+                        android:textSize="@dimen/text_size_middle"/>
+
+                    <TextView
+                        android:id="@+id/change"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_margin="10dp"
+                        android:gravity="center"
+                        android:text="@string/change_a_change"
+                        android:textColor="@color/grey_4c_trans"
+                        android:textSize="@dimen/text_size_small"/>
+
+                </RelativeLayout>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recyclerView_course_recommend"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:layout_margin="10dp"
-                    android:gravity="center"
-                    android:text="@string/change_a_change"
-                    android:textColor="@color/grey_4c_trans"
-                    android:textSize="@dimen/text_size_small"/>
+                    android:overScrollMode="never"
+                    android:padding="11dp">
 
-            </RelativeLayout>
+                </android.support.v7.widget.RecyclerView>
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recyclerView_course_recommend"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:overScrollMode="never"
-                android:padding="11dp">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:background="@color/white">
 
-            </android.support.v7.widget.RecyclerView>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:drawableLeft="@drawable/my_course"
+                        android:drawablePadding="5dp"
+                        android:gravity="center"
+                        android:text="职业路径"
+                        android:textColor="@color/grey_4c"
+                        android:textSize="@dimen/text_size_middle"/>
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:background="@color/white">
+                    <TextView
+                        android:id="@+id/change2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_margin="10dp"
+                        android:gravity="center"
+                        android:text="@string/change_a_change"
+                        android:textColor="@color/grey_4c_trans"
+                        android:textSize="@dimen/text_size_small"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
+                </RelativeLayout>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recyclerView_career_path"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:drawableLeft="@drawable/my_course"
-                    android:drawablePadding="5dp"
-                    android:gravity="center"
-                    android:text="职业路径"
-                    android:textColor="@color/grey_4c"
-                    android:textSize="@dimen/text_size_middle"/>
+                    android:background="@color/white"
+                    android:overScrollMode="never">
 
-                <TextView
-                    android:id="@+id/change2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:layout_margin="10dp"
-                    android:gravity="center"
-                    android:text="@string/change_a_change"
-                    android:textColor="@color/grey_4c_trans"
-                    android:textSize="@dimen/text_size_small"/>
+                </android.support.v7.widget.RecyclerView>
 
-            </RelativeLayout>
+            </LinearLayout>
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recyclerView_career_path"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:overScrollMode="never">
+        </ScrollView>
 
-            </android.support.v7.widget.RecyclerView>
-
-        </LinearLayout>
-
-    </ScrollView>
-
-
+    </android.support.v4.widget.SwipeRefreshLayout>
 </LinearLayout>

@@ -20,4 +20,8 @@
     <string name="format_course_study_number">{0}门课/{1}人学习</string>
     <string name="format_course_price">¥{0}.00</string>
     <string name="format_available_memory">剩余{0}</string>
+    <string name="format_learn_time">学习时长  {0}</string>
+    <string name="format_follows">关注  {0}</string>
+    <string name="format_fans">粉丝  {0}</string>
+    <string name="format_integral">积分  {0}</string>
 </resources>

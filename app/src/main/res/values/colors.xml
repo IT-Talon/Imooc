@@ -14,5 +14,8 @@
     <color name="grey_4c">#4C4C4C</color>
     <color name="grey_4c_trans">#664C4C4C</color>
 
+    <color name="lemon_yellow">#F9D70B</color>
+    <color name="grey_all_d">#DDDDDD</color>
+    <color name="grey_all_e">#EEEEEE</color>
 
 </resources>

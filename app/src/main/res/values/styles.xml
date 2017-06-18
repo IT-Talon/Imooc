@@ -7,11 +7,22 @@
     </style>
 
     <declare-styleable name="ColorTextView">
-        <attr name="ctvText" format="string" />
+        <attr name="ctvText" format="string"/>
         <attr name="ctvBackground" format="color"/>
         <attr name="ctvTextSize" format="dimension"/>
         <attr name="ctvTextColor" format="color"/>
         <attr name="ctvCornerSize" format="integer"/>
     </declare-styleable>
+
+    <style name="SwitchButton">
+        <item name="android:layout_width">20dp</item>
+        <item name="android:layout_height">15dp</item>
+        <item name="kswThumbWidth">20dp</item>
+        <item name="kswThumbHeight">20dp</item>
+        <item name="kswBackMeasureRatio">2.2</item>
+        <item name="kswFadeBack">true</item>
+        <item name="kswBackDrawable">@drawable/switch_background_color</item>
+        <item name="kswThumbDrawable">@drawable/switch_thumb_color</item>
+    </style>
 
 </resources>

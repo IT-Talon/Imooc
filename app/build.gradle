@@ -50,6 +50,9 @@ dependencies {
     //FastJSON
     compile 'com.alibaba:fastjson:1.1.56.android'
 
+    //SwitchButton
+    compile 'com.kyleduo.switchbutton:library:1.4.4'
+
    /* //引入okhttp
     compile 'com.squareup.okhttp3:okhttp:3.5.0'
     //引入retrofit

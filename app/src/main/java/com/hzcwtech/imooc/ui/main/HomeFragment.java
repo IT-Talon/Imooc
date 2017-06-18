@@ -114,22 +114,24 @@ public class HomeFragment extends BaseFragment {
         call.enqueue(new Callback<HttpEntity>() {
             @Override
             public void onResponse(Call<HttpEntity> call, Response<HttpEntity> response) {
-                Toast.makeText(getContext(), "网络请求成功", Toast.LENGTH_SHORT).show();
-                List<CourseSummaryModel> allCourseData = response.body().getDataObject(new TypeReference<List<CourseSummaryModel>>() {
-                });
-                for (CourseSummaryModel couserSummary : allCourseData) {
-                    // type 1 课程推荐 2 实战推荐 3 新课上路 4 5 慕课精英名师推荐 6 banner广告 7 职业路径
-                    switch (couserSummary.getType()) {
-                        case 1:
-                            mRecomAadapter.setNewData(couserSummary.getCourse());
-                            break;
-                        case 7:
-                            mCareerPathAdapter.setNewData(couserSummary.getCourse());
-                            break;
+                if (response.isSuccessful()) {
+                    Toast.makeText(getContext(), "网络请求成功", Toast.LENGTH_SHORT).show();
+                    List<CourseSummaryModel> allCourseData = response.body().getDataObject(new TypeReference<List<CourseSummaryModel>>() {
+                    });
+                    for (CourseSummaryModel couserSummary : allCourseData) {
+                        // type 1 课程推荐 2 实战推荐 3 新课上路 4 5 慕课精英名师推荐 6 banner广告 7 职业路径
+                        switch (couserSummary.getType()) {
+                            case 1:
+                                mRecomAadapter.setNewData(couserSummary.getCourse());
+                                break;
+                            case 7:
+                                mCareerPathAdapter.setNewData(couserSummary.getCourse());
+                                break;
+                        }
                     }
-                }
-                if (mSwipeRefreshLayout.isRefreshing()) {
-                    mSwipeRefreshLayout.setRefreshing(false);
+                    if (mSwipeRefreshLayout.isRefreshing()) {
+                        mSwipeRefreshLayout.setRefreshing(false);
+                    }
                 }
             }
 

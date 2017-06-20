@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.gson.Gson;
 import com.hzcwtech.imooc.R;
 import com.hzcwtech.imooc.adapter.HomeCourseMultiAdapter;
@@ -34,6 +35,7 @@ import com.hzcwtech.imooc.entity.model.CourseDetailModel;
 import com.hzcwtech.imooc.entity.model.CourseSummaryModel;
 import com.hzcwtech.imooc.entity.model.HomePicModel;
 import com.hzcwtech.imooc.entity.model.HomeTabModel;
+import com.hzcwtech.imooc.ui.course.CourseDetailActivity;
 import com.hzcwtech.imooc.utils.GlideImageLoader;
 import com.hzcwtech.imooc.utils.LogUtil;
 import com.youth.banner.Banner;
@@ -193,6 +195,12 @@ public class HomeFragment extends BaseFragment {
         courseRecomRecyclerView.setAdapter(mRecomAadapter);
 
         mCareerPathAdapter = new HomeCourseMultiAdapter(new ArrayList<CourseDetailModel>());
+        mCareerPathAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                CourseDetailActivity.start(getActivity(), mCareerPathAdapter.getData().get(position));
+            }
+        });
         careerPathRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()) {
             @Override
             public boolean canScrollVertically() {

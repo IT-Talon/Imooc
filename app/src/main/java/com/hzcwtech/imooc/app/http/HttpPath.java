@@ -9,6 +9,5 @@ import com.hzcwtech.imooc.BuildConfig;
 public class HttpPath {
     public static final String VERSION = "api3/";
     public static final String BASE_URL = BuildConfig.API_HOST + VERSION;
-
     public static final String HOME_COURSE = "beta4";
 }

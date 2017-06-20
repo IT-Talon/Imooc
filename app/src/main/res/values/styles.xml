@@ -6,6 +6,10 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="FullScreenTheme" parent="AppTheme">
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
     <declare-styleable name="ColorTextView">
         <attr name="ctvText" format="string"/>
         <attr name="ctvBackground" format="color"/>

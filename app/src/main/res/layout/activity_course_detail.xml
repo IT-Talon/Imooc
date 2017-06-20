@@ -4,7 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main_content"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/app_bg_color">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
@@ -19,18 +20,65 @@
 
         </com.hzcwtech.imooc.view.JCVideoPlayerStandardShowShareButtonAfterFullscreen>
 
-        <android.support.design.widget.TabLayout
+        <com.flyco.tablayout.SlidingTabLayout
             android:id="@+id/tabs"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:padding="12dp"
+            app:tl_indicator_color="@color/red"
+            app:tl_indicator_gravity="BOTTOM"
+            app:tl_indicator_height="3dp"
+            app:tl_indicator_style="NORMAL"
+            app:tl_indicator_width_equal_title="true"
+            app:tl_tab_space_equal="true"
+            app:tl_textSelectColor="@color/red"
+            app:tl_textUnselectColor="@color/grey_4c"
+            app:tl_textsize="@dimen/text_size_big"/>
 
     </android.support.design.widget.AppBarLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/grey_4c_trans"/>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/viewpager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_gravity="bottom"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_course_price"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="4"
+            android:background="@color/white"
+            android:gravity="center"
+            android:text="409.00"
+            android:textColor="@color/red"
+            android:textSize="@dimen/text_size_big"/>
+
+        <TextView
+            android:id="@+id/tv_buy"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="5"
+            android:background="@color/red"
+            android:gravity="center"
+            android:text="立即购买"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_big"/>
+
+
+    </LinearLayout>
 
     <!--    <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab"

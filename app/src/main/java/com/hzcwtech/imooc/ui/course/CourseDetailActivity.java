@@ -20,7 +20,6 @@ import com.hzcwtech.imooc.view.JCVideoPlayerStandardShowShareButtonAfterFullscre
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import cn.sharesdk.tencent.qq.QQ;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
 

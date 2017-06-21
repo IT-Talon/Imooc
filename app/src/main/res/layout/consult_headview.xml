@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="70dp"
+              android:background="@color/white"
+              android:focusable="true"
+              android:focusableInTouchMode="true"
+              android:orientation="horizontal"
+              android:paddingBottom="20dp"
+              android:paddingTop="20dp">
+
+    <EditText
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="25dp"
+        android:layout_weight="1"
+        android:background="@drawable/rectangle_bg"
+        android:gravity="center_vertical"
+        android:padding="10dp"
+        android:scrollbars="none"
+        android:singleLine="true"/>
+
+    <TextView
+        android:layout_width="80dp"
+        android:layout_height="match_parent"
+        android:layout_marginRight="25dp"
+        android:background="@color/red"
+        android:gravity="center"
+        android:text="提问"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_big"/>
+
+</LinearLayout>

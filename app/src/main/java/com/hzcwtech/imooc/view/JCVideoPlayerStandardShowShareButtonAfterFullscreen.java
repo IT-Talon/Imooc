@@ -1,15 +1,13 @@
 package com.hzcwtech.imooc.view;
 
 import android.content.Context;
-import android.icu.text.UFormat;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.hzcwtech.imooc.R;
+import com.hzcwtech.imooc.utils.CommonUtil;
 
-import butterknife.OnClick;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
 
 /**
@@ -59,6 +57,15 @@ public class JCVideoPlayerStandardShowShareButtonAfterFullscreen extends JCVideo
                 Toast.makeText(getContext(), "Whatever the icon means", Toast.LENGTH_SHORT).show();
                 break;
         }*/
+    }
+
+    @Override
+    public void setUiWitStateAndScreen(int state) {
+        super.setUiWitStateAndScreen(state);
+        if (state == CURRENT_STATE_PLAYING && currentScreen == SCREEN_WINDOW_FULLSCREEN) {
+            setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN);
+//            CommonUtil.setStatusBarColorIfSupported();
+        }
     }
 
     @Override

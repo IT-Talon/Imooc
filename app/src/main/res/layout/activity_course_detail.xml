@@ -15,16 +15,15 @@
 
         <android.support.design.widget.AppBarLayout
             android:id="@+id/appbar"
-            style="@style/ThemeOverlay.AppCompat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <com.hzcwtech.imooc.view.JCVideoPlayerStandardShowShareButtonAfterFullscreen
                 android:id="@+id/videoPlayer"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="220dp"
                 app:layout_collapseMode="parallax"
-                app:layout_scrollFlags="scroll|enterAlways">
+                app:layout_scrollFlags="scroll|enterAlways|snap">
 
             </com.hzcwtech.imooc.view.JCVideoPlayerStandardShowShareButtonAfterFullscreen>
 

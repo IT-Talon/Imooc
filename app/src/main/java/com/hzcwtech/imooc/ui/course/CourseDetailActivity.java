@@ -7,7 +7,6 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
@@ -177,14 +176,12 @@ public class CourseDetailActivity extends BaseActivity {
                 consultlist.addAll(consultData);
             }
         }
-
-        Log.d("sas", "sa");
     }
 
     private void initView() {
         initVideoPlayer();
         initTabs();
-        tvPrice.setText(CommonUtil.fillString(this, R.string.format_course_price, mCourse.getPrice()));
+        tvPrice.setText(CommonUtil.fillString(this, R.string.format_course_price, mCourse.getPrice() / 100));
     }
 
     private void initTabs() {
@@ -219,6 +216,7 @@ public class CourseDetailActivity extends BaseActivity {
 
             }
         });
+//        mVideoPlayer.setlistener
     }
 
     @Override

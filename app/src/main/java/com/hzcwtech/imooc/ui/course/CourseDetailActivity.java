@@ -187,7 +187,7 @@ public class CourseDetailActivity extends BaseActivity {
     private void initTabs() {
         fragments = new ArrayList<>();
         fragments.add(ConsultFragment.newInstance(consultlist));
-        fragments.add(ConsultFragment.newInstance(consultlist));
+        fragments.add(EvaluateFragment.newInstance());
         fragments.add(ConsultFragment.newInstance(consultlist));
         titles = new ArrayList<>();
         titles.add("介绍");
@@ -216,7 +216,6 @@ public class CourseDetailActivity extends BaseActivity {
 
             }
         });
-//        mVideoPlayer.setlistener
     }
 
     @Override

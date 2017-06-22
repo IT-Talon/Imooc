@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@color/white"
+              android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="综合评价"
+            android:textSize="@dimen/text_size_big"/>
+
+        <TextView
+            android:id="@+id/tv_score"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="9.99"
+            android:textColor="@color/red"
+            android:textSize="@dimen/text_size_big"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp">
+
+        <TextView
+            android:id="@+id/tv_evaluate_1"
+            android:layout_width="80dp"
+            android:layout_height="25dp"
+            android:background="@drawable/rectangle_bg"
+            android:gravity="center_vertical"
+            android:padding="5dp"
+            android:text="内容实用"
+            android:textColor="@color/grey_4c"
+            android:textSize="@dimen/text_size_small"/>
+
+        <TextView
+            android:id="@+id/tv_evaluate_2"
+            android:layout_width="80dp"
+            android:layout_height="25dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/rectangle_bg"
+            android:gravity="center_vertical"
+            android:padding="5dp"
+            android:text="内容实用"
+            android:textColor="@color/grey_4c"
+            android:textSize="@dimen/text_size_small"/>
+
+        <TextView
+            android:id="@+id/tv_evaluate_3"
+            android:layout_width="80dp"
+            android:layout_height="25dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/rectangle_bg"
+            android:gravity="center_vertical"
+            android:padding="5dp"
+            android:text="内容实用"
+            android:textColor="@color/grey_4c"
+            android:textSize="@dimen/text_size_small"/>
+
+    </LinearLayout>
+
+</LinearLayout>

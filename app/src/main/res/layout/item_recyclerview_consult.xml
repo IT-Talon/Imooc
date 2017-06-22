@@ -40,16 +40,16 @@
             android:id="@+id/tv_consult_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:textSize="@dimen/text_size_middle"/>
+            android:textColor="@color/grey_4c"
+            android:textSize="15sp"/>
 
         <TextView
             android:id="@+id/tv_consult_answer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:textColor="@color/grey_4c"
-            android:textSize="@dimen/text_size_small"/>
+            android:textColor="@color/grey_4c_trans"
+            android:textSize="@dimen/text_size_middle"/>
 
         <TextView
             android:id="@+id/tv_consult_time"
@@ -57,7 +57,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:gravity="end"
-            android:textColor="@color/grey_4c"
+            android:textColor="@color/grey_4c_trans"
             android:textSize="@dimen/text_size_small"/>
 
     </LinearLayout>

@@ -35,8 +35,7 @@
         <activity
             android:name=".ui.course.CourseDetailActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
-            android:screenOrientation="portrait"
-            android:theme="@style/FullScreenTheme">
+            android:screenOrientation="portrait">
 
         </activity>
 

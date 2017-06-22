@@ -184,7 +184,7 @@ public class CourseDetailActivity extends BaseActivity {
     private void initView() {
         initVideoPlayer();
         initTabs();
-        tvPrice.setText(CommonUtil.fillString(this, R.string.format_course_price, mCourse.getPrice() / 100));
+        tvPrice.setText(CommonUtil.fillString(this, R.string.format_course_price, mCourse.getPrice()));
     }
 
     private void initTabs() {
@@ -203,7 +203,7 @@ public class CourseDetailActivity extends BaseActivity {
     private void initVideoPlayer() {
         JCVideoPlayerStandard.ACTION_BAR_EXIST = false;
         JCVideoPlayerStandard.TOOL_BAR_EXIST = false;
-        mVideoPlayer.setUp(VIDEO_URL, JCVideoPlayerStandard.SCREEN_LAYOUT_NORMAL, mCourse.getName());
+        mVideoPlayer.setUp(VIDEO_URL, JCVideoPlayerStandard.SCREEN_LAYOUT_NORMAL, "");
         Glide.with(this).load(IMG_URL).into(mVideoPlayer.thumbImageView);
         mVideoPlayer.setClickListener(new JCVideoPlayerStandardShowShareButtonAfterFullscreen.ButtonClickListener() {
             @Override
@@ -237,7 +237,7 @@ public class CourseDetailActivity extends BaseActivity {
 
     @Override
     protected Integer getStatusBarColor() {
-        return ResourceUtil.getColor(this, R.color.transparent);
+        return ResourceUtil.getColor(this, R.color.toolbar_background);
     }
 
     @Override

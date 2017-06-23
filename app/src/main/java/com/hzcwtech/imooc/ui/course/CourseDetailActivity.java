@@ -39,6 +39,7 @@ public class CourseDetailActivity extends BaseActivity {
     private static final String COURSE = "course";
     private static final String IMG_URL = "http://climg.imooc.com/59030cc50001144806000338.jpg";
     private static final String VIDEO_URL = "http://clvideo.mukewang.com/58c20168e520e59d7f8b459b/H.mp4";
+//    private static final String VIDEO_URL = "rtsp://184.72.239.149/vod/mp4://BigBuckBunny_175k.mov";
 
     @BindView(R.id.videoPlayer)
     JCVideoPlayerStandardShowShareButtonAfterFullscreen mVideoPlayer;

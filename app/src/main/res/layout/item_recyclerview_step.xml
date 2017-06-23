@@ -9,7 +9,7 @@
         android:id="@+id/step_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_margin="5dp"
         android:text="步骤一 HTML基础"
         android:textColor="@color/grey_4c"
         android:textSize="@dimen/text_size_big"/>

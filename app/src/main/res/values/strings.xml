@@ -24,4 +24,5 @@
     <string name="format_follows">关注  {0}</string>
     <string name="format_fans">粉丝  {0}</string>
     <string name="format_integral">积分  {0}</string>
+    <string name="format_check_all_evaluate">查看全部评价（{0}）</string>
 </resources>

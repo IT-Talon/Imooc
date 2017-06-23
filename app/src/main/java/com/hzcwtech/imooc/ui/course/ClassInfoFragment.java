@@ -3,8 +3,10 @@ package com.hzcwtech.imooc.ui.course;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +24,7 @@ import com.hzcwtech.imooc.entity.model.ClassInfoDetailModel;
 import com.hzcwtech.imooc.entity.model.ClassInfoSummaryModel;
 import com.hzcwtech.imooc.entity.model.EvaluateDetailModel;
 import com.hzcwtech.imooc.entity.model.StepModel;
+import com.hzcwtech.imooc.utils.CommonUtil;
 
 import java.util.List;
 
@@ -45,6 +48,8 @@ public class ClassInfoFragment extends BaseFragment {
     TextView tvClassCourseCount;
     @BindView(R.id.tv_class_total_time)
     TextView tvClassTotalTime;
+    @BindView(R.id.tv_all_course)
+    TextView tvAallCourse;
     @BindView(R.id.tv_class_number)
     TextView tvClassNumber;
     @BindView(R.id.img_pic_1)
@@ -113,7 +118,23 @@ public class ClassInfoFragment extends BaseFragment {
     }
 
     private void initEvaluateView() {
+        View header = LayoutInflater.from(getContext()).inflate(R.layout.evaluate_headview, null);
+        ((TextView) header.findViewById(R.id.tv_score)).setText(evaluate.getScore() + "");
+        ((TextView) header.findViewById(R.id.tv_evaluate_1)).setText(evaluate.getWeidu().get(0).toString());
+        ((TextView) header.findViewById(R.id.tv_evaluate_2)).setText(evaluate.getWeidu().get(1).toString());
+        ((TextView) header.findViewById(R.id.tv_evaluate_3)).setText(evaluate.getWeidu().get(2).toString());
+        View footer = LayoutInflater.from(getContext()).inflate(R.layout.evaluate_footerview, null);
+        footer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ViewPager viewPager = (ViewPager) getActivity().findViewById(R.id.viewpager);
+                viewPager.setCurrentItem(1);
+            }
+        });
+        ((TextView) footer.findViewById(R.id.tv_all_evaluate)).setText(CommonUtil.fillString(getContext(), R.string.format_check_all_evaluate, evaluate.getCommentcount()));
         evaluateAdapter = new EvaluateSummaryAdapter(evaluate.getEvaluate());
+        evaluateAdapter.addHeaderView(header);
+        evaluateAdapter.addFooterView(footer);
         recyclerViewClassEvaluate.setLayoutManager(new LinearLayoutManager(getContext()) {
             @Override
             public boolean canScrollVertically() {
@@ -124,9 +145,19 @@ public class ClassInfoFragment extends BaseFragment {
     }
 
     private void initInfoView() {
-        tvClassCourseCount.setText(info.getCoursecount());
-        tvClassTotalTime.setText(info.getTotal_time());
+
+        tvClassCourseCount.setText(Html.fromHtml("<big>"+info.getCoursecount()+"</big> 门"));
+        tvClassTotalTime.setText(Html.fromHtml("<big>"+info.getTotal_time()+"</big> h"));
         tvClassNumber.setText(info.getNumbers());
+        tvAallCourse.setText("全部课程（" + info.getCoursecount() + "门）");
+        tvConsult.setText(evaluate.getConsult());
+        tvConsult.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ViewPager viewPager = (ViewPager) getActivity().findViewById(R.id.viewpager);
+                viewPager.setCurrentItem(2);
+            }
+        });
     }
 
     private void initData() {

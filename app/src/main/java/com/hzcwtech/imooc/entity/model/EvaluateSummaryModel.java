@@ -6,7 +6,7 @@ import java.io.Serializable;
  * Created by Talon on 2017/6/22.
  */
 
-public class EvaluateModel implements Serializable {
+public class EvaluateSummaryModel implements Serializable {
     private static final long serialVersionUID = -145258686068383055L;
 
     /**

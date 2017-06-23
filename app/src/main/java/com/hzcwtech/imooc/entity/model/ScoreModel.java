@@ -16,6 +16,8 @@ public class ScoreModel implements Serializable {
 
     private String score;
     private String title;
+    private int id;
+    private int sort;
 
     public String getScore() {
         return score;
@@ -31,6 +33,22 @@ public class ScoreModel implements Serializable {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getSort() {
+        return sort;
+    }
+
+    public void setSort(int sort) {
+        this.sort = sort;
     }
 
     @Override

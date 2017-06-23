@@ -3,7 +3,6 @@ package com.hzcwtech.imooc.ui.course;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -17,11 +16,10 @@ import com.hzcwtech.imooc.R;
 import com.hzcwtech.imooc.adapter.EvaluateAdapter;
 import com.hzcwtech.imooc.base.BaseFragment;
 import com.hzcwtech.imooc.entity.HttpEntity;
-import com.hzcwtech.imooc.entity.model.EvaluateModel;
+import com.hzcwtech.imooc.entity.model.EvaluateSummaryModel;
 import com.hzcwtech.imooc.entity.model.PlanScoreModel;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import butterknife.BindView;
@@ -39,7 +37,7 @@ public class EvaluateFragment extends BaseFragment {
     Unbinder unbinder;
 
     private EvaluateAdapter mAdapter;
-    private List<EvaluateModel> data;
+    private List<EvaluateSummaryModel> data;
     private PlanScoreModel planScoreModel;
 
     public static EvaluateFragment newInstance() {
@@ -176,7 +174,7 @@ public class EvaluateFragment extends BaseFragment {
         HttpEntity httpEntity = JSON.parseObject(json, HttpEntity.class);
         if (httpEntity.isSuccess()) {
             data.clear();
-            data.addAll(httpEntity.getDataObject(new TypeReference<List<EvaluateModel>>() {
+            data.addAll(httpEntity.getDataObject(new TypeReference<List<EvaluateSummaryModel>>() {
             }));
         }
 

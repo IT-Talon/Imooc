@@ -23,26 +23,17 @@ import java.util.List;
  * Created by Talon on 2017/6/22.
  */
 
-public class EvaluateAdapter extends BaseQuickAdapter<EvaluateSummaryModel, BaseViewHolder> {
-    public EvaluateAdapter(@Nullable List<EvaluateSummaryModel> data) {
-        super(R.layout.item_reyclerview_evaluate, data);
+public class EvaluateSummaryAdapter extends BaseQuickAdapter<EvaluateSummaryModel, BaseViewHolder> {
+    public EvaluateSummaryAdapter(@Nullable List<EvaluateSummaryModel> data) {
+        super(R.layout.item_reyclerview_evaluate_summary, data);
     }
 
     @Override
     protected void convert(BaseViewHolder helper, EvaluateSummaryModel item) {
         Glide.with(mContext).load(item.getImg()).apply(new RequestOptions().transform(new GlideCircleTransform(mContext))).into((ImageView) helper.getView(R.id.img_user_pic));
-        helper.setText(R.id.tv_user_nickname, item.getNickname())
-                .setText(R.id.tv_time, item.getCreate_time())
-                .setText(R.id.tv_content, item.getContent());
         RatingBar ratingBar = helper.getView(R.id.ratingBar_score);
+        helper.setText(R.id.tv_user_nickname, item.getNickname())
+                .setText(R.id.tv_content, item.getContent());
         ratingBar.setRating(Float.valueOf(item.getComment_score()) / 2);
-        String reply = "讲师回复: " + item.getReply();
-        TextView tvReply = helper.getView(R.id.tv_reply);
-
-        SpannableStringBuilder builder = new SpannableStringBuilder(reply);
-        //ForegroundColorSpan 为文字前景色，BackgroundColorSpan为文字背景色
-        ForegroundColorSpan redSpan = new ForegroundColorSpan(ResourceUtil.getColor(mContext, R.color.text_orange));
-        builder.setSpan(redSpan, 0, 5, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        tvReply.setText(builder);
     }
 }

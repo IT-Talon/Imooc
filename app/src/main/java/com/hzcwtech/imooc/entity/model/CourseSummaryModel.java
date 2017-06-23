@@ -7,7 +7,7 @@ import java.util.List;
  * Created by Talon on 2017/6/14.
  */
 
-public class CourseSummaryModel implements Serializable{
+public class CourseSummaryModel implements Serializable {
     private static final long serialVersionUID = -4086596180851549002L;
 
     /**
@@ -27,6 +27,13 @@ public class CourseSummaryModel implements Serializable{
     private String pic_night;
     private int type;
     private List<CourseDetailModel> course;
+    private int type_id;
+    private String short_description;
+    private String course_time;
+    private int exam_frequency;
+    private int exam_num;
+    private int paper_time;
+    private String title;
 
     public int getList_type() {
         return list_type;
@@ -82,5 +89,61 @@ public class CourseSummaryModel implements Serializable{
 
     public void setCourse(List<CourseDetailModel> course) {
         this.course = course;
+    }
+
+    public int getType_id() {
+        return type_id;
+    }
+
+    public void setType_id(int type_id) {
+        this.type_id = type_id;
+    }
+
+    public String getShort_description() {
+        return short_description;
+    }
+
+    public void setShort_description(String short_description) {
+        this.short_description = short_description;
+    }
+
+    public String getCourse_time() {
+        return course_time;
+    }
+
+    public void setCourse_time(String course_time) {
+        this.course_time = course_time;
+    }
+
+    public int getExam_frequency() {
+        return exam_frequency;
+    }
+
+    public void setExam_frequency(int exam_frequency) {
+        this.exam_frequency = exam_frequency;
+    }
+
+    public int getExam_num() {
+        return exam_num;
+    }
+
+    public void setExam_num(int exam_num) {
+        this.exam_num = exam_num;
+    }
+
+    public int getPaper_time() {
+        return paper_time;
+    }
+
+    public void setPaper_time(int paper_time) {
+        this.paper_time = paper_time;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }

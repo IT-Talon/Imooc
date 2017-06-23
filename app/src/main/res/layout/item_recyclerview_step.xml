@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginBottom="10dp"
+              android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/step_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="步骤一 HTML基础"
+        android:textColor="@color/grey_4c"
+        android:textSize="@dimen/text_size_big"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rec_classInfo_step_child"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </android.support.v7.widget.RecyclerView>
+
+</LinearLayout>

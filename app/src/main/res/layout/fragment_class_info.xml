@@ -178,6 +178,16 @@
 
         </android.support.v7.widget.RecyclerView>
 
+        <TextView
+            android:id="@+id/tv_check_all_course"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="20dp"
+            android:drawableLeft="@drawable/icon_next"
+            android:drawablePadding="10dp"
+            android:text="查看全部路径课程"/>
+
         <ImageView
             android:id="@+id/img_pic_1"
             android:layout_width="match_parent"

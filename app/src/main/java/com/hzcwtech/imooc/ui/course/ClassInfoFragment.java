@@ -26,6 +26,7 @@ import com.hzcwtech.imooc.entity.model.EvaluateDetailModel;
 import com.hzcwtech.imooc.entity.model.StepModel;
 import com.hzcwtech.imooc.utils.CommonUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -52,6 +53,8 @@ public class ClassInfoFragment extends BaseFragment {
     TextView tvAallCourse;
     @BindView(R.id.tv_class_number)
     TextView tvClassNumber;
+    @BindView(R.id.tv_check_all_course)
+    TextView tvCheckAllCourse;
     @BindView(R.id.img_pic_1)
     ImageView imgPic1;
     @BindView(R.id.img_pic_2)
@@ -107,7 +110,17 @@ public class ClassInfoFragment extends BaseFragment {
     }
 
     private void initStepView() {
-        stepAdapter = new StepAdapter(steplist);
+        stepAdapter = new StepAdapter(new ArrayList<StepModel>());
+        if (steplist.get(0).getCourselist().size() > 3) {
+            List<StepModel> stepData = new ArrayList<>();
+            StepModel model = steplist.get(0);
+            model.setCourselist(model.getCourselist().subList(0, 3));
+            stepData.add(model);
+            stepAdapter.setNewData(stepData);
+        } else {
+            stepAdapter.setNewData(steplist);
+        }
+
         recClassInfoStep.setLayoutManager(new LinearLayoutManager(getContext()) {
             @Override
             public boolean canScrollVertically() {
@@ -146,8 +159,8 @@ public class ClassInfoFragment extends BaseFragment {
 
     private void initInfoView() {
 
-        tvClassCourseCount.setText(Html.fromHtml("<big>"+info.getCoursecount()+"</big> 门"));
-        tvClassTotalTime.setText(Html.fromHtml("<big>"+info.getTotal_time()+"</big> h"));
+        tvClassCourseCount.setText(Html.fromHtml("<big>" + info.getCoursecount() + "</big> 门"));
+        tvClassTotalTime.setText(Html.fromHtml("<big>" + info.getTotal_time() + "</big> h"));
         tvClassNumber.setText(info.getNumbers());
         tvAallCourse.setText("全部课程（" + info.getCoursecount() + "门）");
         tvConsult.setText(evaluate.getConsult());
@@ -158,6 +171,19 @@ public class ClassInfoFragment extends BaseFragment {
                 viewPager.setCurrentItem(2);
             }
         });
+        if (steplist.get(0).getCourselist().size() > 3) {
+            tvCheckAllCourse.setVisibility(View.VISIBLE);
+        } else {
+            tvCheckAllCourse.setVisibility(View.GONE);
+        }
+        tvCheckAllCourse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                stepAdapter.setNewData(steplist);
+                tvCheckAllCourse.setVisibility(View.GONE);
+            }
+        });
+
     }
 
     private void initData() {

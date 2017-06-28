@@ -549,6 +549,7 @@ public class ClassInfoFragment extends BaseFragment {
             pic_info = infoDetail.getPic_info();
             steplist = infoDetail.getSteplist();
         }
+
     }
 
     @Override

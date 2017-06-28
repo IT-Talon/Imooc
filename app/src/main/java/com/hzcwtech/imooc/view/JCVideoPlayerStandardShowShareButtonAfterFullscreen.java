@@ -60,6 +60,15 @@ public class JCVideoPlayerStandardShowShareButtonAfterFullscreen extends JCVideo
     }
 
     @Override
+    public void setUiWitStateAndScreen(int state) {
+        super.setUiWitStateAndScreen(state);
+        if (state == CURRENT_STATE_PLAYING && currentScreen == SCREEN_WINDOW_FULLSCREEN) {
+            setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN);
+//            CommonUtil.setStatusBarColorIfSupported();
+        }
+    }
+
+    @Override
     public void setUp(String url, int screen, Object... objects) {
         super.setUp(url, screen, objects);
         if (currentScreen == SCREEN_WINDOW_FULLSCREEN) {

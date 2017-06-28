@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
@@ -74,6 +75,7 @@ public class CourseDetailActivity extends BaseActivity {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);//去掉标题栏
         setContentView(R.layout.activity_course_detail);
         ButterKnife.bind(this);
+        CommonUtil.resetTopViewHeight(this, mainContent);
         mCourse = (CourseDetailModel) getIntent().getSerializableExtra(COURSE);
         initData();
         initView();
@@ -231,11 +233,13 @@ public class CourseDetailActivity extends BaseActivity {
     protected void onPause() {
         super.onPause();
         JCVideoPlayer.releaseAllVideos();
+//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN, WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
     }
 
     @Override
     protected Integer getStatusBarColor() {
-        return ResourceUtil.getColor(this, R.color.toolbar_background);
+//        return null;
+        return ResourceUtil.getColor(this, R.color.transparent);
     }
 
     @Override

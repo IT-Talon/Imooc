@@ -1,15 +1,18 @@
 package com.hzcwtech.imooc.ui.course;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
-import android.view.WindowManager;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
@@ -26,16 +29,40 @@ import com.hzcwtech.imooc.utils.AppUtils;
 import com.hzcwtech.imooc.utils.CommonUtil;
 import com.hzcwtech.imooc.utils.ResourceUtil;
 import com.hzcwtech.imooc.view.JCVideoPlayerStandardShowShareButtonAfterFullscreen;
+import com.pingplusplus.android.Pingpp;
 
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
 
 public class CourseDetailActivity extends BaseActivity {
+
+    /**
+     * 微信支付渠道
+     */
+    private static final String CHANNEL_WECHAT = "wx";
+    /**
+     * 微信支付渠道
+     */
+    private static final String CHANNEL_QPAY = "qpay";
+    /**
+     * 支付支付渠道
+     */
+    private static final String CHANNEL_ALIPAY = "alipay";
+    private static String YOUR_URL ="http://218.244.151.190/demo/charge";
+    public static final String CHARGE_URL = YOUR_URL;
 
     private static final String COURSE = "course";
     private static final String IMG_URL = "http://climg.imooc.com/59030cc50001144806000338.jpg";
@@ -79,6 +106,8 @@ public class CourseDetailActivity extends BaseActivity {
         mCourse = (CourseDetailModel) getIntent().getSerializableExtra(COURSE);
         initData();
         initView();
+
+        PopupWindow popupWindow = new PopupWindow();
     }
 
     private void initData() {
@@ -246,5 +275,146 @@ public class CourseDetailActivity extends BaseActivity {
     public void finish() {
         super.finish();
         overridePendingTransition(R.anim.no_translate, R.anim.out_fade_topbottom);
+    }
+
+    @OnClick({R.id.tv_course_price, R.id.tv_buy})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.tv_course_price:
+                break;
+            case R.id.tv_buy:
+                new PaymentTask().execute(new PaymentRequest(CHANNEL_WECHAT, 1));
+                break;
+        }
+    }
+
+    class PaymentTask extends AsyncTask<PaymentRequest, Void, String> {
+
+        @Override
+        protected void onPreExecute() {
+            //按键点击之后的禁用，防止重复点击
+//            tvBuy.setOnClickListener(null);
+        }
+
+        @Override
+        protected String doInBackground(PaymentRequest... pr) {
+
+            PaymentRequest paymentRequest = pr[0];
+            String data = null;
+            try {
+                JSONObject object = new JSONObject();
+                object.put("channel", paymentRequest.channel);
+                object.put("amount", paymentRequest.amount);
+                String json = object.toString();
+                //向Your Ping++ Server SDK请求数据
+                data = postJson(CHARGE_URL, json);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return data;
+        }
+
+        /**
+         * 获得服务端的charge，调用ping++ sdk。
+         */
+        @Override
+        protected void onPostExecute(String data) {
+            if(null == data){
+                showMsg("请求出错", "请检查URL", "URL无法获取charge");
+                return;
+            }
+            Log.d("charge", data);
+
+            //除QQ钱包外，其他渠道调起支付方式：
+            //参数一：Activity  当前调起支付的Activity
+            //参数二：data  获取到的charge或order的JSON字符串
+            Pingpp.createPayment(CourseDetailActivity.this, data);
+
+            //QQ钱包调用方式
+            //参数一：Activity  当前调起支付的Activity
+            //参数二：data  获取到的charge或order的JSON字符串
+            //参数三：“qwalletXXXXXXX”需与AndroidManifest.xml中的scheme值一致
+            //Pingpp.createPayment(ClientSDKActivity.this, data, "qwalletXXXXXXX");
+        }
+
+    }
+
+    /**
+     * onActivityResult 获得支付结果，如果支付成功，服务器会收到ping++ 服务器发送的异步通知。
+     * 最终支付成功根据异步通知为准
+     */
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        //支付页面返回处理
+        if (requestCode == Pingpp.REQUEST_CODE_PAYMENT) {
+            if (resultCode == Activity.RESULT_OK) {
+                String result = data.getExtras().getString("pay_result");
+                /* 处理返回值
+                 * "success" - payment succeed
+                 * "fail"    - payment failed
+                 * "cancel"  - user canceld
+                 * "invalid" - payment plugin not installed
+                 */
+                String errorMsg = data.getExtras().getString("error_msg"); // 错误信息
+                String extraMsg = data.getExtras().getString("extra_msg"); // 错误信息
+                showMsg(result, errorMsg, extraMsg);
+            }
+        }
+    }
+
+    public void showMsg(String title, String msg1, String msg2) {
+        String str = title;
+        if (null !=msg1 && msg1.length() != 0) {
+            str += "\n" + msg1;
+        }
+        if (null !=msg2 && msg2.length() != 0) {
+            str += "\n" + msg2;
+        }
+        AlertDialog.Builder builder = new AlertDialog.Builder(CourseDetailActivity.this);
+        builder.setMessage(str);
+        builder.setTitle("提示");
+        builder.setPositiveButton("OK", null);
+        builder.create().show();
+    }
+
+    /**
+     * 获取charge
+     * @param urlStr charge_url
+     * @param json 获取charge的传参
+     * @return charge
+     * @throws IOException
+     */
+    private static String postJson(String urlStr, String json) throws IOException {
+        URL url = new URL(urlStr);
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setConnectTimeout(8000);
+        conn.setReadTimeout(8000);
+        conn.setRequestMethod("POST");
+        conn.setRequestProperty("Content-Type","application/json");
+        conn.setDoOutput(true);
+        conn.setDoInput(true);
+        conn.getOutputStream().write(json.getBytes());
+
+        if(conn.getResponseCode() == 200) {
+            BufferedReader
+                    reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), "utf-8"));
+            StringBuilder response = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                response.append(line);
+            }
+            return response.toString();
+        }
+        return null;
+    }
+
+    class PaymentRequest {
+        String channel;
+        int amount;
+
+        public PaymentRequest(String channel, int amount) {
+            this.channel = channel;
+            this.amount = amount;
+        }
     }
 }

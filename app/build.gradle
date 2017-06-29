@@ -43,8 +43,6 @@ dependencies {
     //SwitchButton
     //JieCaoVideoPlayer
     //sharesdk
-
-
     compile files('libs/MobCommons-2017.0608.1618.jar')
     compile files('libs/systembartint-1.0.3.jar')
     compile files('libs/MobTools-2017.0608.1618.jar')
@@ -54,7 +52,6 @@ dependencies {
     compile files('libs/ShareSDK-Wechat-3.0.0.jar')
     compile files('libs/ShareSDK-Wechat-Core-3.0.0.jar')
     compile files('libs/ShareSDK-Wechat-Moments-3.0.0.jar')
-
     //tabLayout
     compile 'com.jakewharton:butterknife:8.6.0'
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.18'
@@ -70,5 +67,12 @@ dependencies {
     compile 'com.android.support:support-v4:25.3.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.0.0-RC0'
+    compile 'com.pingxx:pingpp-core:2.1.9'
+    // 必须添加
+    compile 'com.pingxx:pingpp-wxpay:2.1.9'
+    // 使用微信支付时添加
+    compile 'com.pingxx:pingpp-alipay:2.1.9'
+    // 使用支付宝时添加
+    compile project(':SlidingMenu')
 }
 

@@ -4,4 +4,6 @@
     <dimen name="text_size_small">10sp</dimen>
     <dimen name="text_size_middle">13sp</dimen>
     <dimen name="text_size_big">17sp</dimen>
+    <dimen name="shadow_width">1dp</dimen>
+    <dimen name="behind_width">150dp</dimen>
 </resources>

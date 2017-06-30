@@ -27,7 +27,7 @@ public class AppUtils {
         share.setTitleUrl(course.getShare());
         share.setText(course.getShort_description());
         share.setUrl(course.getShare());
-        share.setSite("Imooc");
+        share.setSite("imooc");
         share.setImageUrl(course.getPic());
         share.setSiteUrl(course.getShare());
         share.setCallback(new PlatformActionListener() {
